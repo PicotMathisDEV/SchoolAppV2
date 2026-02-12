@@ -98,7 +98,6 @@ export default function CreateLessonPage() {
       router.push("/create/lesson");
     }
   };
-  console.log(lesson);
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-8">

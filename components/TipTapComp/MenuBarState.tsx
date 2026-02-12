@@ -28,6 +28,8 @@ export function menuBarStateSelector(ctx: MenuBarContext) {
     isBlockquote: false,
     isCodeBlock: false,
     isTable: false,
+    isSuperscript: false,
+    isSubscript: false,
   };
 
   if (!ctx.editor) return defaultState;
@@ -57,5 +59,7 @@ export function menuBarStateSelector(ctx: MenuBarContext) {
     isBlockquote: e.isActive("blockquote"),
     isCodeBlock: e.isActive("codeBlock"),
     isTable: e.isActive("table"),
+    isSuperscript: e.isActive("superscript"),
+    isSubscript: e.isActive("subscript"),
   };
 }

@@ -77,16 +77,6 @@ export default function Page() {
           }}
         />
       </div>
-      <div className="z-40">
-        <DropMenu
-          user={{
-            name: session.user.name || "",
-            email: session.user.email || "",
-            image: session.user.image || undefined,
-            role: session.user.role || "",
-          }}
-        />
-      </div>
     </div>
   );
 }

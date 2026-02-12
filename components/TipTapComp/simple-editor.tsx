@@ -11,6 +11,8 @@ import { TableHeader } from "@tiptap/extension-table-header";
 import { Image } from "@tiptap/extension-image";
 import { Link } from "@tiptap/extension-link";
 import { TextAlign } from "@tiptap/extension-text-align";
+import Superscript from "@tiptap/extension-superscript";
+import Subscript from "@tiptap/extension-subscript";
 
 import { MenuBar } from "./MenuBar";
 
@@ -35,6 +37,8 @@ const SimpleEditor = ({ lesson }: Props) => {
       Table.configure({ resizable: true }),
       TableRow,
       TableHeader,
+      Superscript,
+      Subscript,
       TableCell,
       TextAlign.configure({
         types: ["heading", "paragraph"],
@@ -53,19 +57,17 @@ const SimpleEditor = ({ lesson }: Props) => {
         },
       }),
     ],
-    // Correction : On s'assure que le contenu n'est jamais null pour éviter les erreurs d'initialisation
+
     content: lesson.content ?? "",
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        // Ajout de h-full pour que la zone cliquable prenne tout l'espace
         class:
           "tiptap prose max-w-none focus:outline-none p-12 cursor-text bg-white min-h-full overflow-y-auto",
       },
     },
   });
 
-  // Synchronisation si la leçon change (ex: chargement asynchrone)
   React.useEffect(() => {
     if (
       editor &&

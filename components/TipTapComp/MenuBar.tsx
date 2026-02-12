@@ -3,7 +3,6 @@
 import type { Editor } from "@tiptap/core";
 import { useEditorState } from "@tiptap/react";
 import React, { useCallback, useRef } from "react";
-// CORRECTION : On retire l'import de l'extension ici, on ne garde que les icônes
 import {
   Bold,
   Italic,
@@ -16,16 +15,13 @@ import {
   ListOrdered,
   Quote,
   Code2,
-  Minus,
   Undo2,
   Redo2,
   Eraser,
   Table as TableIcon,
-  Merge,
   ArrowRightToLine,
   ArrowDownToLine,
   Trash2,
-  XCircle,
   Link as LinkIcon,
   Image as ImageIcon,
   Ban,
@@ -33,12 +29,12 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
+  Superscript,
+  Subscript,
 } from "lucide-react";
 import { menuBarStateSelector } from "./MenuBarState";
 import { updateLessonContent } from "@/src/lib/actions/lesson-action";
 import { toast } from "sonner";
-
-import { DropMenuLesson } from "@/app/create/lesson/[id]/DropMenuLesson";
 
 type MenuBarProps = {
   editor: Editor | null;
@@ -46,7 +42,7 @@ type MenuBarProps = {
     name: string | null;
     id: string;
     content: string | null;
-    image: string | null; // Changé en null possible pour matcher Prisma
+    image: string | null;
   };
 };
 
@@ -65,19 +61,17 @@ const MenuButton = ({
     }}
     disabled={disabled}
     title={title}
-    className={`p-2 rounded-lg transition-all duration-200 ${
+    className={`p-1.5 md:p-2 rounded-md transition-all duration-200 ${
       isActive
-        ? "bg-blue-600 text-white shadow-md"
+        ? "bg-blue-600 text-white shadow-sm"
         : danger
           ? "text-red-500 hover:bg-red-50"
-          : "text-slate-600 hover:bg-blue-50 hover:text-blue-600"
+          : "text-slate-600 hover:bg-slate-100 hover:text-blue-600"
     } ${disabled ? "opacity-20 cursor-not-allowed" : "cursor-pointer active:scale-90"}`}
   >
-    {children}
+    {React.cloneElement(children as React.ReactElement, { size: 16 })}
   </button>
 );
-
-const Divider = () => <div className="w-1p] h-6 bg-slate-200 mx-1" />;
 
 export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
   const state = useEditorState({ editor, selector: menuBarStateSelector });
@@ -88,10 +82,10 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
     try {
       const currentHTML = editor.getHTML();
       await updateLessonContent(lesson.id, currentHTML);
-      toast.success("Leçon mise à jour");
+      toast.success("Enregistré");
     } catch (err) {
       console.error("Erreur Prisma/Action:", err);
-      toast.error("Erreur lors de la sauvegarde");
+      toast.error("Erreur");
     }
   };
 
@@ -125,260 +119,248 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
   if (!editor || !state) return null;
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-1 p-4 sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-blue-50 max-w-6/10 mx-auto">
-      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
-        <MenuButton
-          onClick={() => editor.chain().focus().undo().run()}
-          disabled={!state.canUndo}
-          title="Annuler"
-        >
-          <Undo2 size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().redo().run()}
-          disabled={!state.canRedo}
-          title="Rétablir"
-        >
-          <Redo2 size={18} />
-        </MenuButton>
-      </div>
-      <Divider />
-
-      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          isActive={state.isBold}
-          title="Gras"
-        >
-          <Bold size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          isActive={state.isItalic}
-          title="Italique"
-        >
-          <Italic size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          isActive={state.isStrike}
-          title="Barré"
-        >
-          <Strikethrough size={18} />
-        </MenuButton>
-      </div>
-      <Divider />
-      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          isActive={state.isBlockquote}
-          title="Citation"
-        >
-          <Quote size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          isActive={state.isCodeBlock}
-          title="Bloc Code"
-        >
-          <Code2 size={18} />
-        </MenuButton>
-      </div>
-      <Divider />
-      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
-        <MenuButton
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 1 }).run()
-          }
-          isActive={state.isHeading1}
-          title="H1"
-        >
-          <Heading1 size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run()
-          }
-          isActive={state.isHeading2}
-          title="H2"
-        >
-          <Heading2 size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 3 }).run()
-          }
-          isActive={state.isHeading3}
-          title="H3"
-        >
-          <Heading3 size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 4 }).run()
-          }
-          isActive={state.isHeading4}
-          title="H4"
-        >
-          <Heading4 size={18} />
-        </MenuButton>
-      </div>
-      <Divider />
-      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
-        <MenuButton onClick={setLink} isActive={state.isLink} title="Lien">
-          <LinkIcon size={18} />
-        </MenuButton>
-        <input
-          type="file"
-          ref={fileInputRef}
-          className="hidden"
-          accept="image/*"
-          onChange={handleImageUpload}
-        />
-        <MenuButton
-          onClick={() => fileInputRef.current?.click()}
-          title="Image PC"
-        >
-          <ImageIcon size={18} />
-        </MenuButton>
-      </div>
-      <Divider />
-
-      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
-        <MenuButton
-          onClick={() => editor.chain().focus().setTextAlign("left").run()}
-          isActive={state.isTextAlignLeft}
-          title="Gauche"
-        >
-          <AlignLeft size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().setTextAlign("center").run()}
-          isActive={state.isTextAlignCenter}
-          title="Centre"
-        >
-          <AlignCenter size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().setTextAlign("right").run()}
-          isActive={state.isTextAlignRight}
-          title="Droite"
-        >
-          <AlignRight size={18} />
-        </MenuButton>
-      </div>
-      <Divider />
-
-      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          isActive={state.isBulletList}
-          title="Liste à puces"
-        >
-          <List size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          isActive={state.isOrderedList}
-          title="Liste ordonnée"
-        >
-          <ListOrdered size={18} />
-        </MenuButton>
-      </div>
-      <Divider />
-
-      <div className="flex items-center gap-0.5 bg-blue-50/50 p-1 rounded-xl border border-blue-100">
-        <MenuButton
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
-              .run()
-          }
-          title="Tableau"
-        >
-          <TableIcon size={18} className="text-blue-600" />
-        </MenuButton>
-        {state.isTable && (
-          <>
-            <Divider />
+    <div className="sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-slate-200 w-full p-2">
+      {/* - mx-auto : Centre le bloc
+          - px-6 : Ajoute une marge de sécurité à gauche et à droite pour ne pas coller tes menus 
+          - max-w-[1400px] : Empêche la barre de devenir trop large sur des écrans ultra-wide
+      */}
+      <div className="max-w-[1400px] mx-auto px-6 flex flex-wrap items-center justify-center gap-2">
+        {/* Historique & Style */}
+        <div className="flex items-center gap-1 flex-wrap justify-center">
+          <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
             <MenuButton
-              onClick={() => editor.chain().focus().addColumnAfter().run()}
-              title="+ Col"
+              onClick={() => editor.chain().focus().undo().run()}
+              disabled={!state.canUndo}
+              title="Annuler"
             >
-              <ArrowRightToLine size={16} />
+              <Undo2 />
             </MenuButton>
             <MenuButton
-              onClick={() => editor.chain().focus().deleteColumn().run()}
-              title="- Col"
-              danger
+              onClick={() => editor.chain().focus().redo().run()}
+              disabled={!state.canRedo}
+              title="Rétablir"
             >
-              <XCircle size={16} />
+              <Redo2 />
             </MenuButton>
-            <MenuButton
-              onClick={() => editor.chain().focus().addRowAfter().run()}
-              title="+ Ligne"
-            >
-              <ArrowDownToLine size={16} />
-            </MenuButton>
-            <MenuButton
-              onClick={() => editor.chain().focus().deleteRow().run()}
-              title="- Ligne"
-              danger
-            >
-              <XCircle size={16} />
-            </MenuButton>
-            <MenuButton
-              onClick={() => editor.chain().focus().mergeCells().run()}
-              title="Fusionner"
-            >
-              <Merge size={16} />
-            </MenuButton>
-            <MenuButton
-              onClick={() => editor.chain().focus().deleteTable().run()}
-              title="Supprimer Table"
-              danger
-            >
-              <Trash2 size={16} />
-            </MenuButton>
-          </>
-        )}
-      </div>
-      <Divider />
-
-      <div className="flex items-center gap-0.5">
-        <MenuButton
-          onClick={() => editor.chain().focus().setHorizontalRule().run()}
-          title="Ligne"
-        >
-          <Minus size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().unsetAllMarks().run()}
-          title="Effacer styles"
-        >
-          <Eraser size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().clearNodes().run()}
-          title="Reset blocs"
-        >
-          <Ban size={18} />
-        </MenuButton>
-      </div>
-
-      <div className="ml-4  pl-4">
-        <MenuButton
-          title="Enregistrer votre travail"
-          onClick={handleSubmit}
-          isActive={false}
-        >
-          <div className="flex items-center gap-2">
-            <Save size={18} />
-            <span className="text-sm font-bold">Sauvegarder</span>
           </div>
-        </MenuButton>
+
+          <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
+            <MenuButton
+              onClick={() => editor.chain().focus().toggleBold().run()}
+              isActive={state.isBold}
+              title="Gras"
+            >
+              <Bold />
+            </MenuButton>
+            <MenuButton
+              onClick={() => editor.chain().focus().toggleItalic().run()}
+              isActive={state.isItalic}
+              title="Italique"
+            >
+              <Italic />
+            </MenuButton>
+            <MenuButton
+              onClick={() => editor.chain().focus().toggleStrike().run()}
+              isActive={state.isStrike}
+              title="Barré"
+            >
+              <Strikethrough />
+            </MenuButton>
+            <MenuButton
+              onClick={() => editor.chain().focus().toggleSuperscript().run()}
+              isActive={state.isSuperscript}
+              title="Exposant"
+            >
+              <Superscript />
+            </MenuButton>
+            <MenuButton
+              onClick={() => editor.chain().focus().toggleSubscript().run()}
+              isActive={state.isSubscript}
+              title="Indice"
+            >
+              <Subscript />
+            </MenuButton>
+          </div>
+        </div>
+
+        {/* Titres & Alignement */}
+        <div className="flex items-center gap-1 flex-wrap justify-center">
+          <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
+            <MenuButton
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 1 }).run()
+              }
+              isActive={state.isHeading1}
+              title="H1"
+            >
+              <Heading1 />
+            </MenuButton>
+            <MenuButton
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 2 }).run()
+              }
+              isActive={state.isHeading2}
+              title="H2"
+            >
+              <Heading2 />
+            </MenuButton>
+            <MenuButton
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 3 }).run()
+              }
+              isActive={state.isHeading3}
+              title="H3"
+            >
+              <Heading3 />
+            </MenuButton>
+          </div>
+
+          <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
+            <MenuButton
+              onClick={() => editor.chain().focus().setTextAlign("left").run()}
+              isActive={state.isTextAlignLeft}
+              title="Gauche"
+            >
+              <AlignLeft />
+            </MenuButton>
+            <MenuButton
+              onClick={() =>
+                editor.chain().focus().setTextAlign("center").run()
+              }
+              isActive={state.isTextAlignCenter}
+              title="Centre"
+            >
+              <AlignCenter />
+            </MenuButton>
+            <MenuButton
+              onClick={() => editor.chain().focus().setTextAlign("right").run()}
+              isActive={state.isTextAlignRight}
+              title="Droite"
+            >
+              <AlignRight />
+            </MenuButton>
+          </div>
+        </div>
+
+        {/* Listes & Médias */}
+        <div className="flex items-center gap-1 flex-wrap justify-center">
+          <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
+            <MenuButton
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+              isActive={state.isBulletList}
+              title="Puces"
+            >
+              <List />
+            </MenuButton>
+            <MenuButton
+              onClick={() => editor.chain().focus().toggleOrderedList().run()}
+              isActive={state.isOrderedList}
+              title="Ordonnée"
+            >
+              <ListOrdered />
+            </MenuButton>
+            <MenuButton
+              onClick={() => editor.chain().focus().toggleBlockquote().run()}
+              isActive={state.isBlockquote}
+              title="Citation"
+            >
+              <Quote />
+            </MenuButton>
+            <MenuButton
+              onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+              isActive={state.isCodeBlock}
+              title="Code"
+            >
+              <Code2 />
+            </MenuButton>
+          </div>
+
+          <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
+            <MenuButton onClick={setLink} isActive={state.isLink} title="Lien">
+              <LinkIcon />
+            </MenuButton>
+            <input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              accept="image/*"
+              onChange={handleImageUpload}
+            />
+            <MenuButton
+              onClick={() => fileInputRef.current?.click()}
+              title="Image"
+            >
+              <ImageIcon />
+            </MenuButton>
+          </div>
+        </div>
+
+        {/* Tableaux & Nettoyage */}
+        <div className="flex items-center gap-1 flex-wrap justify-center">
+          <div className="flex items-center gap-0.5 bg-emerald-50/50 p-1 rounded-lg border border-emerald-100 shadow-sm">
+            <MenuButton
+              onClick={() =>
+                editor
+                  .chain()
+                  .focus()
+                  .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+                  .run()
+              }
+              title="Tableau"
+            >
+              <TableIcon />
+            </MenuButton>
+            {state.isTable && (
+              <>
+                <MenuButton
+                  onClick={() => editor.chain().focus().addColumnAfter().run()}
+                  title="+ Col"
+                >
+                  <ArrowRightToLine />
+                </MenuButton>
+                <MenuButton
+                  onClick={() => editor.chain().focus().addRowAfter().run()}
+                  title="+ Ligne"
+                >
+                  <ArrowDownToLine />
+                </MenuButton>
+                <MenuButton
+                  onClick={() => editor.chain().focus().deleteTable().run()}
+                  title="Supprimer"
+                  danger
+                >
+                  <Trash2 />
+                </MenuButton>
+              </>
+            )}
+          </div>
+
+          <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
+            <MenuButton
+              onClick={() => editor.chain().focus().unsetAllMarks().run()}
+              title="Nettoyer styles"
+            >
+              <Eraser />
+            </MenuButton>
+            <MenuButton
+              onClick={() => editor.chain().focus().clearNodes().run()}
+              title="Reset blocs"
+            >
+              <Ban />
+            </MenuButton>
+          </div>
+        </div>
+
+        {/* Bouton Sauvegarder Minimaliste */}
+        <button
+          onClick={handleSubmit}
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-md hover:bg-blue-600 hover:text-white transition-all active:scale-95 flex-shrink-0 shadow-sm"
+        >
+          <Save size={14} />
+          <span className="text-[11px] font-semibold uppercase tracking-wider">
+            Save
+          </span>
+        </button>
       </div>
     </div>
   );

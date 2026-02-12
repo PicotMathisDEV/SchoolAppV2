@@ -36,8 +36,9 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useSession } from "@/src/lib/auth-client";
 import DropMenu from "@/app/_components/DropMenu";
-import Image from "next/Image";
+
 import { Pencil, Trash2Icon, Settings2, Plus } from "lucide-react";
+import Image from "next/image";
 
 interface Classe {
   id: string;
@@ -57,7 +58,6 @@ export default function Page() {
   const [currentClass, setCurrentClass] = useState<Classe | null>(null);
   const [newName, setNewName] = useState("");
 
-  // États pour contrôler les modales déclenchées par le Dropdown
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 

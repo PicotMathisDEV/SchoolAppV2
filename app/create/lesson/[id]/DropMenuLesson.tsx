@@ -32,7 +32,15 @@ import {
   updateLessonName,
 } from "@/src/lib/actions/lesson-action";
 
-import { ImageIcon, Menu, Pencil, Share2, Trash2, Loader2 } from "lucide-react";
+import {
+  ImageIcon,
+  Menu,
+  Pencil,
+  Share2,
+  Trash2,
+  Loader2,
+  Bookmark,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -44,6 +52,7 @@ import { toast } from "sonner";
 type Classe = {
   id: string;
   name: string;
+  students: string[];
 };
 
 type Lesson = {
@@ -65,13 +74,10 @@ export const DropMenuLesson = ({ lesson }: Props) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  // États du formulaire
-  const [title, setTitle] = useState(lesson.name);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [allClasses, setAllClasses] = useState<Classe[]>([]);
   const [checked, setChecked] = useState<string[]>([]);
 
-  // Initialisation des données
   useEffect(() => {
     if (lesson.classes) {
       setChecked(lesson.classes.map((c) => c.id));
@@ -87,10 +93,6 @@ export const DropMenuLesson = ({ lesson }: Props) => {
     };
     fetchClasses();
   }, [lesson]);
-
-  /* -------------------------- */
-  /* ACTIONS           */
-  /* -------------------------- */
 
   const handleUpdateTitle = () => {
     if (!title.trim()) return toast.error("Titre requis");
@@ -123,7 +125,6 @@ export const DropMenuLesson = ({ lesson }: Props) => {
       if (res.success) {
         toast.success("Classes mises à jour");
         router.refresh();
-        // Le useEffect ci-dessus s'occupera de recocher si nécessaire
       }
     });
   };
@@ -135,7 +136,7 @@ export const DropMenuLesson = ({ lesson }: Props) => {
       router.push("/create/lesson");
     });
   };
-
+  console.log(allClasses);
   return (
     <div className="absolute top-6 left-4">
       <DropdownMenu>
@@ -160,7 +161,7 @@ export const DropMenuLesson = ({ lesson }: Props) => {
                   <AlertDialogTitle>Modifier le titre</AlertDialogTitle>
                 </AlertDialogHeader>
                 <Input
-                  value={title}
+                  value={lesson.name}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Nom de la leçon"
                 />
@@ -212,7 +213,7 @@ export const DropMenuLesson = ({ lesson }: Props) => {
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <Share2 className="mr-2 h-4 w-4" /> Partager / Classes
+                  <Share2 className="mr-2 h-4 w-4" /> Partager a mes classes
                 </DropdownMenuItem>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -226,22 +227,31 @@ export const DropMenuLesson = ({ lesson }: Props) => {
                   {allClasses.map((classe) => (
                     <div
                       key={classe.id}
-                      className="flex items-center space-x-2"
+                      className="flex items-center justify-between space-x-2 p-1 hover:bg-slate-50 rounded-md transition-colors"
                     >
-                      <Checkbox
-                        id={classe.id}
-                        checked={checked.includes(classe.id)}
-                        onCheckedChange={(val) => {
-                          setChecked((prev) =>
-                            val
-                              ? [...prev, classe.id]
-                              : prev.filter((id) => id !== classe.id),
-                          );
-                        }}
-                      />
-                      <Label htmlFor={classe.id} className="cursor-pointer">
-                        {classe.name}
-                      </Label>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id={classe.id}
+                          checked={checked.includes(classe.id)}
+                          onCheckedChange={(val) => {
+                            setChecked((prev) =>
+                              val
+                                ? [...prev, classe.id]
+                                : prev.filter((id) => id !== classe.id),
+                            );
+                          }}
+                        />
+                        <Label
+                          htmlFor={classe.id}
+                          className="cursor-pointer font-medium"
+                        >
+                          {classe.name}
+                        </Label>
+                      </div>
+
+                      <span className="text-xs text-muted-foreground bg-slate-100 px-2 py-0.5 rounded-full">
+                        {classe.students.length} eleves
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -290,6 +300,10 @@ export const DropMenuLesson = ({ lesson }: Props) => {
               </AlertDialogContent>
             </AlertDialog>
           </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => router.push("/create/lesson")}>
+            <Bookmark /> Retour a mes lecons
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

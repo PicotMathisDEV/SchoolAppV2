@@ -91,6 +91,7 @@ export async function updateLessonImage(lessonId: string, formData: FormData) {
     return { success: true, data: updatedLesson };
   } catch (error) {
     return { success: false, message: "Erreur lors de l'upload" };
+    console.log(error);
   }
 }
 
@@ -108,7 +109,6 @@ export async function updateLessonClasses(
       },
     });
 
-    // Indispensable pour que le refresh fonctionne
     revalidatePath("/create/lesson");
 
     return { success: true, data: updatedLesson };
@@ -126,7 +126,6 @@ export async function updateLessonContent(id: string, content: string) {
       },
     });
 
-    // Si tu veux que le contenu soit rafraîchi partout
     revalidatePath("/create/lesson");
 
     return { success: true, data: updated };

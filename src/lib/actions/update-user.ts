@@ -63,7 +63,6 @@ export async function updateUserData(
       },
     });
 
-    // 6. Revalidation du cache
     revalidatePath("/settings");
     revalidatePath("/dashboard");
 
