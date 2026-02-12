@@ -142,7 +142,6 @@ const DropMenu = ({ user }: Props) => {
               </DropdownMenuItem>
             </AlertDialogTrigger>
 
-            {/* On enlève les paddings par défaut de Content si nécessaire ou on stylise l'intérieur */}
             <AlertDialogContent className="p-0 overflow-hidden border-none max-w-md">
               <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-6">
                 <div className="flex items-center gap-2 mb-2">

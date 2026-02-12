@@ -39,6 +39,7 @@ interface Lesson {
   teacherId: string;
   teacherName: string;
   content: string;
+  image: string;
 }
 
 export default function CreateLessonPage() {
@@ -84,21 +85,23 @@ export default function CreateLessonPage() {
     setIsSubmitting(true);
     try {
       await createLesson(title, content, session.user.id, session.user.name);
-
       setTittle("");
       setContent("");
+
       toast.success("Lesson créée !");
     } catch (err) {
       console.log(err);
       toast.error("Erreur lors de la création");
     } finally {
       setIsSubmitting(false);
+      router.push("/dashboard");
+      router.push("/create/lesson");
     }
   };
+  console.log(lesson);
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-8">
-      {/* HEADER : Profil + Action */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-6">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">
@@ -173,17 +176,15 @@ export default function CreateLessonPage() {
         </div>
       </div>
 
-      {/* GRID : Liste des leçons */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-4">
         {lesson.map((item) => (
           <Card
             key={item.id}
             className="group relative flex flex-col overflow-hidden border-none shadow-sm transition-all hover:shadow-2xl hover:-translate-y-2 rounded-3xl bg-white"
           >
-            {/* Header Image avec overlay au hover */}
             <div className="relative h-44 overflow-hidden rounded-t-lg">
               <Image
-                src="/lessonDefault.png"
+                src={item.image && item.image !== "" ? item.image : "/lesson"}
                 alt="Illustration Leçon"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"

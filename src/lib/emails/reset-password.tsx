@@ -29,14 +29,12 @@ const ForgotPasswordEmail = (props: ForgotPasswordEmailProps) => {
         <Preview>Réinitialisez votre mot de passe</Preview>
         <Body className="bg-gray-100 font-sans py-10">
           <Container className="bg-white rounded-xl px-8 py-10 mx-auto max-w-150">
-            {/* Header */}
             <Section className="text-center mb-8">
               <Heading className="text-[28px] font-bold text-black m-0">
                 Réinitialisation de mot de passe
               </Heading>
             </Section>
 
-            {/* Main Content */}
             <Section className="mb-8">
               <Text className="text-[16px] text-gray-800 leading-6 mb-4">
                 Bonjour, {username}
@@ -53,7 +51,6 @@ const ForgotPasswordEmail = (props: ForgotPasswordEmailProps) => {
                 ci-dessous :
               </Text>
 
-              {/* Reset Button */}
               <Section className="text-center mb-8">
                 <Button
                   href={resetUrl}

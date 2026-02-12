@@ -1,12 +1,13 @@
 "use client";
 
 import DropMenu from "@/app/_components/DropMenu";
-import SimpleEditor from "@/components/TipTapComp/simple/simple-editor";
+import SimpleEditor from "@/components/TipTapComp/simple-editor";
 import { getOneLesson } from "@/src/lib/actions/lesson-action";
 import { useSession } from "@/src/lib/auth-client";
 import { unauthorized, useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { DropMenuLesson } from "./DropMenuLesson";
 
 interface Lesson {
   id: string;
@@ -14,10 +15,11 @@ interface Lesson {
   teacherId: string;
   teacherName: string;
   content: string;
+  image: string;
+  classes: { id: string; name?: string }[];
 }
 
 export default function Page() {
-  // Correction 1: On attend une seule leçon (objet), pas un tableau []
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
 
   const params = useParams();
@@ -27,7 +29,6 @@ export default function Page() {
   useEffect(() => {
     const fetchLesson = async () => {
       if (params.id) {
-        // getOneLesson renvoie un objet leçon
         const data = await getOneLesson(params.id as string);
         setCurrentLesson(data);
       }
@@ -52,27 +53,37 @@ export default function Page() {
   if (!session?.user) return null;
   if (session.user.role !== "teacher") return unauthorized();
 
-  // Correction 2: Attendre que currentLesson soit chargé avant d'afficher l'éditeur
   if (!currentLesson) return <p>Chargement de la leçon...</p>;
 
   return (
-    <div>
-      <div className="mb-4">
+    <div className="relative">
+      <DropMenuLesson
+        key={currentLesson.id + JSON.stringify(currentLesson.classes)}
+        lesson={{
+          name: currentLesson.title,
+          id: currentLesson.id,
+          image: currentLesson.image,
+          classes: currentLesson.classes,
+        }}
+      />
+
+      <div className="-z-10 absolute ">
+        <SimpleEditor
+          lesson={{
+            content: currentLesson.content,
+            name: currentLesson.title,
+            id: currentLesson.id,
+            image: currentLesson.image,
+          }}
+        />
+      </div>
+      <div className="z-40">
         <DropMenu
           user={{
             name: session.user.name || "",
             email: session.user.email || "",
             image: session.user.image || undefined,
             role: session.user.role || "",
-          }}
-        />
-      </div>
-      <div>
-        <SimpleEditor
-          lesson={{
-            content: currentLesson.content,
-            name: currentLesson.title,
-            id: currentLesson.id,
           }}
         />
       </div>

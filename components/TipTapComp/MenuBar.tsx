@@ -1,6 +1,9 @@
+"use client";
+
 import type { Editor } from "@tiptap/core";
 import { useEditorState } from "@tiptap/react";
 import React, { useCallback, useRef } from "react";
+// CORRECTION : On retire l'import de l'extension ici, on ne garde que les icônes
 import {
   Bold,
   Italic,
@@ -8,6 +11,7 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  Heading4,
   List,
   ListOrdered,
   Quote,
@@ -25,19 +29,24 @@ import {
   Link as LinkIcon,
   Image as ImageIcon,
   Ban,
-  Heading4,
   Save,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
 } from "lucide-react";
 import { menuBarStateSelector } from "./MenuBarState";
-import { updateLesson } from "@/src/lib/actions/lesson-action";
+import { updateLessonContent } from "@/src/lib/actions/lesson-action";
 import { toast } from "sonner";
+
+import { DropMenuLesson } from "@/app/create/lesson/[id]/DropMenuLesson";
 
 type MenuBarProps = {
   editor: Editor | null;
   lesson: {
     name: string | null;
     id: string;
-    content: string;
+    content: string | null;
+    image: string | null; // Changé en null possible pour matcher Prisma
   };
 };
 
@@ -68,7 +77,7 @@ const MenuButton = ({
   </button>
 );
 
-const Divider = () => <div className="w-1px h-6 bg-slate-200 mx-1" />;
+const Divider = () => <div className="w-1p] h-6 bg-slate-200 mx-1" />;
 
 export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
   const state = useEditorState({ editor, selector: menuBarStateSelector });
@@ -78,8 +87,7 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
     if (!editor) return;
     try {
       const currentHTML = editor.getHTML();
-      await updateLesson(lesson.id, currentHTML);
-
+      await updateLessonContent(lesson.id, currentHTML);
       toast.success("Leçon mise à jour");
     } catch (err) {
       console.error("Erreur Prisma/Action:", err);
@@ -117,9 +125,8 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
   if (!editor || !state) return null;
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-1 p-4 sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-blue-50">
-      {/* 1. Historique */}
-      <div className="flex items-center gap-0.5">
+    <div className="flex flex-wrap items-center justify-center gap-1 p-4 sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-blue-50 max-w-6/10 mx-auto">
+      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
         <MenuButton
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!state.canUndo}
@@ -137,8 +144,7 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
       </div>
       <Divider />
 
-      {/* 2. Formatage & Médias */}
-      <div className="flex items-center gap-0.5">
+      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
         <MenuButton
           onClick={() => editor.chain().focus().toggleBold().run()}
           isActive={state.isBold}
@@ -160,27 +166,26 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
         >
           <Strikethrough size={18} />
         </MenuButton>
-        <MenuButton onClick={setLink} isActive={state.isLink} title="Lien">
-          <LinkIcon size={18} />
-        </MenuButton>
-        <input
-          type="file"
-          ref={fileInputRef}
-          className="hidden"
-          accept="image/*"
-          onChange={handleImageUpload}
-        />
+      </div>
+      <Divider />
+      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
         <MenuButton
-          onClick={() => fileInputRef.current?.click()}
-          title="Image PC"
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          isActive={state.isBlockquote}
+          title="Citation"
         >
-          <ImageIcon size={18} />
+          <Quote size={18} />
+        </MenuButton>
+        <MenuButton
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          isActive={state.isCodeBlock}
+          title="Bloc Code"
+        >
+          <Code2 size={18} />
         </MenuButton>
       </div>
       <Divider />
-
-      {/* 3. Titres (StarterKit) */}
-      <div className="flex items-center gap-0.5">
+      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
         <MenuButton
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 1 }).run()
@@ -219,9 +224,52 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
         </MenuButton>
       </div>
       <Divider />
+      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
+        <MenuButton onClick={setLink} isActive={state.isLink} title="Lien">
+          <LinkIcon size={18} />
+        </MenuButton>
+        <input
+          type="file"
+          ref={fileInputRef}
+          className="hidden"
+          accept="image/*"
+          onChange={handleImageUpload}
+        />
+        <MenuButton
+          onClick={() => fileInputRef.current?.click()}
+          title="Image PC"
+        >
+          <ImageIcon size={18} />
+        </MenuButton>
+      </div>
+      <Divider />
 
-      {/* 4. Listes & Blocs (StarterKit) */}
-      <div className="flex items-center gap-0.5">
+      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
+        <MenuButton
+          onClick={() => editor.chain().focus().setTextAlign("left").run()}
+          isActive={state.isTextAlignLeft}
+          title="Gauche"
+        >
+          <AlignLeft size={18} />
+        </MenuButton>
+        <MenuButton
+          onClick={() => editor.chain().focus().setTextAlign("center").run()}
+          isActive={state.isTextAlignCenter}
+          title="Centre"
+        >
+          <AlignCenter size={18} />
+        </MenuButton>
+        <MenuButton
+          onClick={() => editor.chain().focus().setTextAlign("right").run()}
+          isActive={state.isTextAlignRight}
+          title="Droite"
+        >
+          <AlignRight size={18} />
+        </MenuButton>
+      </div>
+      <Divider />
+
+      <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-xl border border-slate-200">
         <MenuButton
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           isActive={state.isBulletList}
@@ -236,24 +284,9 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
         >
           <ListOrdered size={18} />
         </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          isActive={state.isBlockquote}
-          title="Citation"
-        >
-          <Quote size={18} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          isActive={state.isCodeBlock}
-          title="Bloc Code"
-        >
-          <Code2 size={18} />
-        </MenuButton>
       </div>
       <Divider />
 
-      {/* 5. Tableaux (Extrait du TableKit manuel) */}
       <div className="flex items-center gap-0.5 bg-blue-50/50 p-1 rounded-xl border border-blue-100">
         <MenuButton
           onClick={() =>
@@ -312,10 +345,8 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
           </>
         )}
       </div>
-
       <Divider />
 
-      {/* 6. Outils divers */}
       <div className="flex items-center gap-0.5">
         <MenuButton
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
@@ -336,9 +367,17 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
           <Ban size={18} />
         </MenuButton>
       </div>
-      <div className="ml-6">
-        <MenuButton title="Enregistrer votre travail" onClick={handleSubmit}>
-          <Save size={18} />
+
+      <div className="ml-4  pl-4">
+        <MenuButton
+          title="Enregistrer votre travail"
+          onClick={handleSubmit}
+          isActive={false}
+        >
+          <div className="flex items-center gap-2">
+            <Save size={18} />
+            <span className="text-sm font-bold">Sauvegarder</span>
+          </div>
         </MenuButton>
       </div>
     </div>

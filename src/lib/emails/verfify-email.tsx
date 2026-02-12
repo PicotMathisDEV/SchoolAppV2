@@ -25,14 +25,12 @@ const VerifyEmail = (props: VerifyEmailProps) => {
       <Tailwind>
         <Body className="bg-gray-100 py-10 font-sans">
           <Container className="bg-white mx-auto px-10 py-10 max-w-2xl">
-            {/* Header */}
             <Section className="text-center mb-8">
               <Heading className="text-2xl font-bold text-black m-0 mb-4">
                 Vérification de votre email
               </Heading>
             </Section>
 
-            {/* Main Content */}
             <Section className="mb-8">
               <Text className="text-base text-gray-800 leading-6 m-0 mb-4">
                 Bonjour {username}
@@ -47,7 +45,6 @@ const VerifyEmail = (props: VerifyEmailProps) => {
               </Text>
             </Section>
 
-            {/* CTA Button */}
             <Section className="text-center mb-8">
               <Button
                 href={verifyUrl}
@@ -57,7 +54,6 @@ const VerifyEmail = (props: VerifyEmailProps) => {
               </Button>
             </Section>
 
-            {/* Alternative Link */}
             <Section className="mb-8">
               <Text className="text-sm text-gray-600 leading-5 m-0 mb-2">
                 Si le bouton ne fonctionne pas, copiez et collez ce lien dans
@@ -68,7 +64,6 @@ const VerifyEmail = (props: VerifyEmailProps) => {
               </Text>
             </Section>
 
-            {/* Security Notice */}
             <Section className="border-t border-solid border-gray-200 pt-6">
               <Text className="text-sm text-gray-600 leading-5 m-0 mb-2">
                 <strong>Note de sécurité :</strong>

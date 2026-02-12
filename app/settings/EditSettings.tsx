@@ -72,7 +72,6 @@ const EditSettings = ({ user }: Props) => {
   };
 
   const confirmDelete = async (e: React.MouseEvent) => {
-    // Empêche la fermeture de l'alert dialog si le mot de passe est vide
     if (!deletePassword) {
       e.preventDefault();
       toast.error("Le mot de passe est requis");

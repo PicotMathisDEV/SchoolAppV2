@@ -10,6 +10,7 @@ import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
 import { Image } from "@tiptap/extension-image";
 import { Link } from "@tiptap/extension-link";
+import { TextAlign } from "@tiptap/extension-text-align";
 
 import { MenuBar } from "./MenuBar";
 
@@ -18,6 +19,7 @@ type Props = {
     name: string | null;
     id: string | null;
     content: string | null;
+    image: string | null;
   };
 };
 
@@ -34,6 +36,9 @@ const SimpleEditor = ({ lesson }: Props) => {
       TableRow,
       TableHeader,
       TableCell,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
       Image.configure({
         allowBase64: true,
         HTMLAttributes: {
@@ -48,17 +53,25 @@ const SimpleEditor = ({ lesson }: Props) => {
         },
       }),
     ],
-    content: lesson.content,
+    // Correction : On s'assure que le contenu n'est jamais null pour éviter les erreurs d'initialisation
+    content: lesson.content ?? "",
     immediatelyRender: false,
     editorProps: {
       attributes: {
+        // Ajout de h-full pour que la zone cliquable prenne tout l'espace
         class:
-          "tiptap prose max-w-none focus:outline-none p-12 cursor-text bg-white h-full overflow-y-auto",
+          "tiptap prose max-w-none focus:outline-none p-12 cursor-text bg-white min-h-full overflow-y-auto",
       },
     },
   });
+
+  // Synchronisation si la leçon change (ex: chargement asynchrone)
   React.useEffect(() => {
-    if (editor && lesson.content && editor.getHTML() !== lesson.content) {
+    if (
+      editor &&
+      lesson.content !== null &&
+      editor.getHTML() !== lesson.content
+    ) {
       editor.commands.setContent(lesson.content);
     }
   }, [lesson.content, editor]);

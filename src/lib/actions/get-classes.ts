@@ -1,17 +1,15 @@
 "use server";
 
-import { headers } from "next/headers";
+import prisma from "@/src/lib/prisma";
 import { auth } from "../auth";
-import prisma from "../prisma";
+import { headers } from "next/headers";
 
 export async function getClasses() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  if (!session) {
-    throw new Error("Non autorisé");
-  }
+  if (!session) throw new Error("Non autorisé");
 
   return await prisma.classe.findMany({
     where: {
