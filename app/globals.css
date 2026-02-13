@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 
 /* =========================
-   VARIABLES – LIGHT MODE
+   VARIABLES – THEME
    ========================= */
 :root {
   --background: oklch(1 0 0);
@@ -25,15 +25,11 @@
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
 
-  /* Couleurs spécifiques pour Tiptap (Bleu doux basé sur ton thème) */
   --editor-selection: oklch(0.9 0.05 230);
   --editor-code-bg: oklch(0.96 0.02 230);
   --editor-code-text: oklch(0.3 0.1 230);
 }
 
-/* =========================
-   DARK MODE
-   ========================= */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -53,10 +49,6 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-
-  --editor-selection: oklch(0.3 0.1 230);
-  --editor-code-bg: oklch(0.25 0.02 0);
-  --editor-code-text: oklch(0.8 0.05 230);
 }
 
 @theme inline {
@@ -94,155 +86,216 @@
   }
 
   /* =========================
-     TIPTAP CONTENT STYLES
+     TIPTAP MASTER STYLES
      ========================= */
   .tiptap {
     outline: none;
     line-height: 1.6;
-  }
-  /* --- STYLES DES TABLEAUX --- */
-  .tiptap table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
-    margin: 1.5rem 0;
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
 
-  .tiptap table td,
-  .tiptap table th {
-    min-width: 1em;
-    border: 1px solid var(--border);
-    padding: 12px 15px;
-    vertical-align: top;
-    box-sizing: border-box;
-    position: relative;
-  }
+    &:first-child {
+      margin-top: 0;
+    }
 
-  .tiptap table th {
-    font-weight: bold;
-    text-align: left;
-    background-color: var(--secondary);
-  }
+    /* --- ALIGNEMENT TEXTE (Force Tailwind Prose override) --- */
+    p[style*="text-align: center"],
+    h1[style*="text-align: center"],
+    h2[style*="text-align: center"],
+    h3[style*="text-align: center"] {
+      text-align: center !important;
+    }
+    p[style*="text-align: right"],
+    h1[style*="text-align: right"],
+    h2[style*="text-align: right"],
+    h3[style*="text-align: right"] {
+      text-align: right !important;
+    }
+    p[style*="text-align: left"],
+    h1[style*="text-align: left"],
+    h2[style*="text-align: left"],
+    h3[style*="text-align: left"] {
+      text-align: left !important;
+    }
 
-  /* Gestion du redimensionnement (TableKit / Table) */
-  .tiptap table .column-resize-handle {
-    position: absolute;
-    right: -2px;
-    top: 0;
-    bottom: -2px;
-    width: 4px;
-    background-color: #3b82f6; /* Bleu vif pour la poignée */
-    pointer-events: none;
-  }
+    /* --- IMAGES & FLUIDITÉ --- */
+    img {
+      display: inline-block;
+      max-width: 100%;
+      height: auto;
+      will-change: width, height; /* Optimisation GPU */
+      transition: transform 0.1s ease-out;
 
-  .tiptap table .selectedCell:after {
-    z-index: 2;
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: rgba(
-      59,
-      130,
-      246,
-      0.08
-    ); /* Fond bleu très léger quand sélectionné */
-    pointer-events: none;
-  }
+      &.ProseMirror-selectednode {
+        outline: 3px solid #3b82f6;
+        transition: none !important; /* Désactive l'inertie pendant le resize */
+      }
 
-  /* --- STYLES DES LISTES (StarterKit) --- */
+      /* Logique d'alignement Image */
+      &[style*="text-align: center"] {
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      &[style*="text-align: right"] {
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+      }
+      &[style*="text-align: left"] {
+        display: block !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+      }
+    }
 
-  .richText table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.5rem 0;
-  }
+    /* Désactive les sélections de texte parasites pendant qu'on bouge l'image */
+    &[data-resize-state="true"] {
+      user-select: none;
+      cursor: nwse-resize;
+      img {
+        transition: none !important;
+      }
+    }
 
-  .richText th,
-  .richText td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-  }
+    /* --- POIGNÉES DE REDIMENSIONNEMENT (Rondes & Smooth) --- */
+    [data-resize-handle] {
+      position: absolute;
+      background: #3b82f6;
+      border: 2px solid white;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      z-index: 50;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
 
-  .richText th {
-    background-color: #f4f4f4;
-  }
+      /* Dimensions poignées */
+      &[data-resize-handle*="left"],
+      &[data-resize-handle*="right"] {
+        width: 12px;
+        height: 12px;
+      }
+      &[data-resize-handle="top-left"] {
+        top: -6px;
+        left: -6px;
+        cursor: nwse-resize;
+      }
+      &[data-resize-handle="top-right"] {
+        top: -6px;
+        right: -6px;
+        cursor: nesw-resize;
+      }
+      &[data-resize-handle="bottom-left"] {
+        bottom: -6px;
+        left: -6px;
+        cursor: nesw-resize;
+      }
+      &[data-resize-handle="bottom-right"] {
+        bottom: -6px;
+        right: -6px;
+        cursor: nwse-resize;
+      }
 
-  .tiptap ul {
-    list-style-type: disc !important;
-    @apply pl-6 my-4;
-  }
+      /* Bords */
+      &[data-resize-handle="top"],
+      &[data-resize-handle="bottom"] {
+        height: 6px;
+        left: 10px;
+        right: 10px;
+        border-radius: 4px;
+      }
+      &[data-resize-handle="top"] {
+        top: -3px;
+        cursor: ns-resize;
+      }
+      &[data-resize-handle="bottom"] {
+        bottom: -3px;
+        cursor: ns-resize;
+      }
+      &[data-resize-handle="left"],
+      &[data-resize-handle="right"] {
+        width: 6px;
+        top: 10px;
+        bottom: 10px;
+        border-radius: 4px;
+      }
+      &[data-resize-handle="left"] {
+        left: -3px;
+        cursor: ew-resize;
+      }
+      &[data-resize-handle="right"] {
+        right: -3px;
+        cursor: ew-resize;
+      }
+    }
 
-  .tiptap ol {
-    list-style-type: decimal !important;
-    @apply pl-6 my-4;
-  }
+    /* --- TABLEAUX --- */
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 100%;
+      margin: 1.5rem 0;
+      border: 1px solid var(--border);
 
-  /* Titres */
-  .tiptap h1 {
-    @apply text-4xl font-extrabold mb-6 mt-8 text-foreground;
-  }
-  .tiptap h2 {
-    @apply text-3xl font-bold mb-4 mt-6 text-foreground;
-  }
-  .tiptap h3 {
-    @apply text-2xl font-bold mb-3 mt-4 text-foreground;
-  }
-  .tiptap h4 {
-    @apply text-xl font-semibold mb-2 mt-3;
-  }
+      td,
+      th {
+        min-width: 1em;
+        border: 1px solid var(--border);
+        padding: 12px 15px;
+        position: relative;
+      }
 
-  /* Listes (Enfin visibles !) */
-  .tiptap ul {
-    list-style-type: disc !important;
-    @apply pl-6 my-4 space-y-1;
-  }
-  .tiptap ol {
-    list-style-type: decimal !important;
-    @apply pl-6 my-4 space-y-1;
-  }
-  .tiptap li p {
-    @apply my-0;
-  }
+      th {
+        background-color: var(--secondary);
+        font-weight: bold;
+      }
 
-  /* Blocs & Marques */
-  .tiptap blockquote {
-    @apply border-l-4 border-primary pl-4 my-6 italic text-muted-foreground;
-  }
+      .column-resize-handle {
+        position: absolute;
+        right: -2px;
+        top: 0;
+        bottom: -2px;
+        width: 4px;
+        background-color: #3b82f6;
+      }
+    }
 
-  .tiptap code {
-    background-color: var(--editor-code-bg);
-    color: var(--editor-code-text);
-    @apply px-1.5 py-0.5 rounded-md text-[0.9em] font-mono;
-  }
+    /* --- TYPOGRAPHIE --- */
+    h1 {
+      @apply text-4xl font-extrabold mb-6 mt-8;
+    }
+    h2 {
+      @apply text-3xl font-bold mb-4 mt-6;
+    }
+    h3 {
+      @apply text-2xl font-bold mb-3 mt-4;
+    }
 
-  .tiptap pre {
-    @apply bg-zinc-950 text-zinc-50 p-4 rounded-xl my-6 font-mono overflow-x-auto;
-  }
+    ul {
+      list-style-type: disc !important;
+      @apply pl-6 my-4;
+    }
+    ol {
+      list-style-type: decimal !important;
+      @apply pl-6 my-4;
+    }
 
-  .tiptap hr {
-    @apply border-t-2 border-border my-8;
-  }
+    blockquote {
+      @apply border-l-4 border-primary pl-4 my-6 italic text-muted-foreground;
+    }
 
-  /* Sélection de texte */
-  .tiptap *::selection {
-    background-color: var(--editor-selection);
-  }
-  article table,
-  .content table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #e5e7eb;
-  }
+    code {
+      background-color: var(--editor-code-bg);
+      color: var(--editor-code-text);
+      @apply px-1.5 py-0.5 rounded-md font-mono;
+    }
 
-  article td,
-  article th {
-    border: 1px solid #e5e7eb;
-    padding: 0.75rem;
+    pre {
+      @apply bg-zinc-950 text-zinc-50 p-4 rounded-xl my-6 font-mono overflow-x-auto;
+    }
+
+    /* --- SELECTION --- */
+    *::selection {
+      background-color: var(--editor-selection);
+    }
   }
 }

@@ -120,12 +120,7 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
 
   return (
     <div className="sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-slate-200 w-full p-2">
-      {/* - mx-auto : Centre le bloc
-          - px-6 : Ajoute une marge de sécurité à gauche et à droite pour ne pas coller tes menus 
-          - max-w-[1400px] : Empêche la barre de devenir trop large sur des écrans ultra-wide
-      */}
-      <div className="max-w-[1400px] mx-auto px-6 flex flex-wrap items-center justify-center gap-2">
-        {/* Historique & Style */}
+      <div className="max-w-350 mx-auto px-6 flex flex-wrap items-center justify-center gap-2">
         <div className="flex items-center gap-1 flex-wrap justify-center">
           <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
             <MenuButton
@@ -212,6 +207,15 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
               title="H3"
             >
               <Heading3 />
+            </MenuButton>
+            <MenuButton
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 4 }).run()
+              }
+              isActive={state.isHeading4}
+              title="H4"
+            >
+              <Heading4 />
             </MenuButton>
           </div>
 
@@ -351,14 +355,13 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
           </div>
         </div>
 
-        {/* Bouton Sauvegarder Minimaliste */}
         <button
           onClick={handleSubmit}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-md hover:bg-blue-600 hover:text-white transition-all active:scale-95 flex-shrink-0 shadow-sm"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-md hover:bg-blue-600 hover:text-white transition-all active:scale-95 shrink-0 shadow-sm"
         >
           <Save size={14} />
           <span className="text-[11px] font-semibold uppercase tracking-wider">
-            Save
+            Sauvegarder
           </span>
         </button>
       </div>

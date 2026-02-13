@@ -40,10 +40,12 @@ import {
   Trash2,
   Loader2,
   Bookmark,
+  Link,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 /* -------------------------- */
 /* TYPES            */
@@ -77,6 +79,9 @@ export const DropMenuLesson = ({ lesson }: Props) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [allClasses, setAllClasses] = useState<Classe[]>([]);
   const [checked, setChecked] = useState<string[]>([]);
+  const [InputValue, setInputValue] = useState(
+    `/dashboard/join/lesson/${lesson.id}`,
+  );
 
   useEffect(() => {
     if (lesson.classes) {
@@ -152,7 +157,10 @@ export const DropMenuLesson = ({ lesson }: Props) => {
             {/* MODIFIER TITRE */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                <DropdownMenuItem
+                  onSelect={(e) => e.preventDefault()}
+                  className="cursor-pointer"
+                >
                   <Pencil className="mr-2 h-4 w-4" /> Modifier le titre
                 </DropdownMenuItem>
               </AlertDialogTrigger>
@@ -184,8 +192,11 @@ export const DropMenuLesson = ({ lesson }: Props) => {
             {/* MODIFIER IMAGE */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <ImageIcon className="mr-2 h-4 w-4" /> Changer l'image
+                <DropdownMenuItem
+                  onSelect={(e) => e.preventDefault()}
+                  className="cursor-pointer"
+                >
+                  <ImageIcon className="mr-2 h-4 w-4 " /> Changer l&apos;image
                 </DropdownMenuItem>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -212,8 +223,12 @@ export const DropMenuLesson = ({ lesson }: Props) => {
             {/* GÉRER CLASSES */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <Share2 className="mr-2 h-4 w-4" /> Partager a mes classes
+                <DropdownMenuItem
+                  onSelect={(e) => e.preventDefault()}
+                  className="cursor-pointer"
+                >
+                  <Share2 className="mr-2 h-4 w-4 cursor-pointer" /> Partager a
+                  mes classes
                 </DropdownMenuItem>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -256,14 +271,44 @@ export const DropMenuLesson = ({ lesson }: Props) => {
                   ))}
                 </div>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Annuler</AlertDialogCancel>
+                  <AlertDialogCancel className="cursor-pointer">
+                    Annuler
+                  </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleUpdateClasses}
                     disabled={isPending}
+                    className="bg-blue-600! hover:bg-blue-700! cursor-pointer"
                   >
                     Sauvegarder
                   </AlertDialogAction>
                 </AlertDialogFooter>
+                <div
+                  className="flex gap-3 items-center
+                "
+                >
+                  <Button
+                    className="cursor-pointer bg-blue-600 hover:bg-blue-700!"
+                    onClick={() => {
+                      try {
+                        navigator.clipboard.writeText(InputValue);
+                        toast.success(
+                          "Lien de la lecon copié dans le presse papier",
+                        );
+                      } catch (err) {
+                        throw err;
+                      }
+                    }}
+                  >
+                    <Link />
+                  </Button>
+                  <Input
+                    id={lesson.id}
+                    type="text"
+                    className="max-w-sm"
+                    value={InputValue}
+                    readOnly
+                  ></Input>
+                </div>
               </AlertDialogContent>
             </AlertDialog>
 
@@ -274,9 +319,9 @@ export const DropMenuLesson = ({ lesson }: Props) => {
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem
                   onSelect={(e) => e.preventDefault()}
-                  className="text-red-600 focus:text-red-600"
+                  className="text-red-600 focus:text-red-600 cursor-pointer font-semibold "
                 >
-                  <Trash2 className="mr-2 h-4 w-4" /> Supprimer
+                  <Trash2 className="mr-2 h-4 w-4 text-red-500" /> Supprimer
                 </DropdownMenuItem>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -301,7 +346,10 @@ export const DropMenuLesson = ({ lesson }: Props) => {
             </AlertDialog>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => router.push("/create/lesson")}>
+          <DropdownMenuItem
+            onClick={() => router.push("/create/lesson")}
+            className="cursor-pointer"
+          >
             <Bookmark /> Retour a mes lecons
           </DropdownMenuItem>
         </DropdownMenuContent>

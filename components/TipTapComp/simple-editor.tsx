@@ -40,16 +40,23 @@ const SimpleEditor = ({ lesson }: Props) => {
       Superscript,
       Subscript,
       TableCell,
+      // Dans tes extensions :
       TextAlign.configure({
-        types: ["heading", "paragraph"],
+        types: ["heading", "paragraph", "image"],
+        alignments: ["left", "center", "right"],
+        defaultAlignment: "left",
       }),
       Image.configure({
-        allowBase64: true,
-        HTMLAttributes: {
-          class:
-            "rounded-lg max-w-full border-2 border-transparent hover:border-blue-500 transition-all",
+        resize: {
+          enabled: true,
+          alwaysPreserveAspectRatio: true,
+          directions: ["top", "bottom", "left", "right"],
+          minWidth: 50,
+          minHeight: 50,
         },
+        allowBase64: true,
       }),
+
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
