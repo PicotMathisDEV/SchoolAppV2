@@ -30,6 +30,7 @@ export function menuBarStateSelector(ctx: MenuBarContext) {
     isTable: false,
     isSuperscript: false,
     isSubscript: false,
+    isUnderline: false,
   };
 
   if (!ctx.editor) return defaultState;
@@ -61,5 +62,6 @@ export function menuBarStateSelector(ctx: MenuBarContext) {
     isTable: e.isActive("table"),
     isSuperscript: e.isActive("superscript"),
     isSubscript: e.isActive("subscript"),
+    isUnderline: e.isActive("underline"),
   };
 }

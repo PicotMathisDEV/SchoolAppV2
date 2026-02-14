@@ -1,13 +1,11 @@
 "use client";
 
-import DropMenu from "@/app/_components/DropMenu";
 import SimpleEditor from "@/components/TipTapComp/simple-editor";
 import { getOneLesson } from "@/src/lib/actions/lesson-action";
 import { useSession } from "@/src/lib/auth-client";
 import { unauthorized, useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { DropMenuLesson } from "./DropMenuLesson";
 
 interface Lesson {
   id: string;
@@ -57,23 +55,16 @@ export default function Page() {
 
   return (
     <div className="relative">
-      <DropMenuLesson
-        key={currentLesson.id + JSON.stringify(currentLesson.classes)}
-        lesson={{
-          name: currentLesson.title,
-          id: currentLesson.id,
-          image: currentLesson.image,
-          classes: currentLesson.classes,
-        }}
-      />
-
       <div className="-z-10 absolute ">
         <SimpleEditor
           lesson={{
             content: currentLesson.content,
-            name: currentLesson.title,
+            title: currentLesson.title,
             id: currentLesson.id,
             image: currentLesson.image,
+            teacherId: currentLesson.teacherId,
+            teacherName: currentLesson.teacherName,
+            classes: currentLesson.classes,
           }}
         />
       </div>

@@ -216,7 +216,7 @@ export default function CreateLessonPage() {
           </Card>
         ))}
       </div>
-      {/* <div>
+      <div>
         {lesson.map((item) => (
           <div key={item.id}>
             <>
@@ -233,11 +233,10 @@ export default function CreateLessonPage() {
                 className="custom-content"
                 dangerouslySetInnerHTML={{ __html: item.content }}
               />
-              <Separator />
             </>
           </div>
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }

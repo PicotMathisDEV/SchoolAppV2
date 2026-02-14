@@ -13,15 +13,18 @@ import { Link } from "@tiptap/extension-link";
 import { TextAlign } from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import Subscript from "@tiptap/extension-subscript";
-
+import { ImportDocx } from "@tiptap-pro/extension-import-docx";
 import { MenuBar } from "./MenuBar";
 
 type Props = {
   lesson: {
-    name: string | null;
-    id: string | null;
-    content: string | null;
-    image: string | null;
+    id: string;
+    title: string;
+    teacherId: string;
+    teacherName: string;
+    content: string;
+    image: string;
+    classes: { id: string; name?: string }[];
   };
 };
 
@@ -32,6 +35,12 @@ const SimpleEditor = ({ lesson }: Props) => {
         heading: { levels: [1, 2, 3, 4, 5, 6] },
         bulletList: { keepMarks: true },
         orderedList: { keepMarks: true },
+      }),
+      ImportDocx.configure({
+        appId: "0k371wlm",
+        token:
+          "gNS+a0tbl5KTPVC5UNeHca9BwTWwRU8rxj5KyEqCHU0AV9rCyp1exM90FpRcVTj6", // JWT for authentication (see Authentication documentation)
+        imageUploadCallbackUrl: "https://your-image-upload-endpoint.com", // Your upload images endpoint
       }),
       TextStyle,
       Table.configure({ resizable: true }),

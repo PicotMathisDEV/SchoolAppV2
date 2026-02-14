@@ -37,7 +37,7 @@ export default function Classe() {
   const [classe, setClasse] = useState<Classe | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const { data: session, isPending } = useSession();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchMyClass = async () => {
@@ -57,9 +57,6 @@ export default function Classe() {
       setLoading(false);
     }
   }, [session]);
-
-  if (loading || isPending)
-    return <p className="p-8 text-center">Chargement...</p>;
 
   if (!session) return null;
 

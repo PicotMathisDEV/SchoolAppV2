@@ -35,14 +35,18 @@ import {
 import { menuBarStateSelector } from "./MenuBarState";
 import { updateLessonContent } from "@/src/lib/actions/lesson-action";
 import { toast } from "sonner";
+import { Drop } from "./Drop";
 
 type MenuBarProps = {
   editor: Editor | null;
   lesson: {
-    name: string | null;
     id: string;
-    content: string | null;
-    image: string | null;
+    title: string;
+    teacherId: string;
+    teacherName: string;
+    content: string;
+    image: string;
+    classes: { id: string; name?: string }[];
   };
 };
 
@@ -120,6 +124,7 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
 
   return (
     <div className="sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-slate-200 w-full p-2">
+      <Drop lesson={lesson} editor={editor} />
       <div className="max-w-350 mx-auto px-6 flex flex-wrap items-center justify-center gap-2">
         <div className="flex items-center gap-1 flex-wrap justify-center">
           <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">

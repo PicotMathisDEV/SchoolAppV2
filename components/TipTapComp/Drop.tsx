@@ -11,6 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import type { Editor } from "@tiptap/core";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,6 +42,8 @@ import {
   Loader2,
   Bookmark,
   Link,
+  FileIcon,
+  Upload,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
@@ -55,20 +58,25 @@ type Classe = {
 
 type Lesson = {
   id: string;
-  name: string;
-  image?: string;
-  classes?: { id: string }[];
+  title: string;
+  teacherId: string;
+  teacherName: string;
+  content: string;
+  image: string;
+  classes: { id: string; name?: string }[];
 };
 
 type Props = {
   lesson: Lesson;
+  editor: Editor | null; // Ajoute l'éditeur ici
 };
 
-export const DropMenuLesson = ({ lesson }: Props) => {
+export const Drop = ({ lesson, editor }: Props) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-
+  const [title, setTitle] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [localFile, setLocalFile] = useState<File | null>(null);
   const [allClasses, setAllClasses] = useState<Classe[]>([]);
   const [checked, setChecked] = useState<string[]>([]);
   const [InputValue, setInputValue] = useState(
@@ -126,6 +134,29 @@ export const DropMenuLesson = ({ lesson }: Props) => {
     });
   };
 
+  const handleUploadLocalFile = () => {
+    if (!localFile) return toast.error("Veuillez sélectionner un fichier");
+
+    // Vérification de l'extension
+    if (!localFile.name.endsWith(".docx")) {
+      return toast.error("Seuls les fichiers .docx sont acceptés");
+    }
+
+    if (!editor) {
+      return toast.error("L'éditeur n'est pas prêt");
+    }
+
+    try {
+      // 1. On lance la commande d'importation de Tiptap Pro
+      editor.chain().focus().importDocx({ file: localFile }).run();
+      toast.success(`Document ${localFile.name} importé !`);
+      setLocalFile(null); // Reset le fichier après l'import
+    } catch (error) {
+      console.error("Erreur import DOCX:", error);
+      toast.error("Erreur lors de la conversion du document");
+    }
+  };
+
   const handleDelete = () => {
     startTransition(async () => {
       await deleteLesson(lesson.id);
@@ -160,7 +191,7 @@ export const DropMenuLesson = ({ lesson }: Props) => {
                   <AlertDialogTitle>Modifier le titre</AlertDialogTitle>
                 </AlertDialogHeader>
                 <Input
-                  value={lesson.name}
+                  value={lesson.title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Nom de la leçon"
                 />
@@ -205,6 +236,62 @@ export const DropMenuLesson = ({ lesson }: Props) => {
                     disabled={isPending}
                   >
                     Enregistrer
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem
+                  onSelect={(e) => e.preventDefault()}
+                  className="cursor-pointer"
+                >
+                  <Upload className="mr-2 h-4 w-4" /> Fichier local
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="flex items-center gap-2">
+                    <Upload className="h-5 w-5 text-red-500" />
+                    Local File
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Choisissez un document depuis votre ordinateur pour
+                    l&apos;ajouter à la leçon.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <div className="flex flex-col items-center justify-center border-2 border-dashed border-slate-200 rounded-lg p-6 hover:bg-slate-50 transition-colors">
+                  <Input
+                    id="local-file"
+                    type="file"
+                    className="hidden"
+                    onChange={(e) => setLocalFile(e.target.files?.[0] || null)}
+                  />
+                  <Label
+                    htmlFor="local-file"
+                    className="cursor-pointer flex flex-col items-center gap-2 w-full"
+                  >
+                    <div className="bg-red-50 p-3 rounded-full">
+                      <FileIcon className="h-8 w-8 text-red-600" />
+                    </div>
+                    <span className="text-sm font-medium">
+                      {localFile
+                        ? localFile.name
+                        : "Cliquez pour choisir un fichier"}
+                    </span>
+                  </Label>
+                </div>
+
+                <AlertDialogFooter>
+                  <AlertDialogCancel onClick={() => setLocalFile(null)}>
+                    Annuler
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleUploadLocalFile}
+                    className="bg-red-600 hover:bg-red-700 text-white"
+                  >
+                    Insérer le fichier
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
