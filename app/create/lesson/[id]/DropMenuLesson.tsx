@@ -47,10 +47,6 @@ import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
-/* -------------------------- */
-/* TYPES            */
-/* -------------------------- */
-
 type Classe = {
   id: string;
   name: string;
@@ -67,10 +63,6 @@ type Lesson = {
 type Props = {
   lesson: Lesson;
 };
-
-/* -------------------------- */
-/* COMPONENT          */
-/* -------------------------- */
 
 export const DropMenuLesson = ({ lesson }: Props) => {
   const router = useRouter();
@@ -154,7 +146,6 @@ export const DropMenuLesson = ({ lesson }: Props) => {
           <DropdownMenuSeparator />
 
           <DropdownMenuGroup>
-            {/* MODIFIER TITRE */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem
@@ -189,7 +180,6 @@ export const DropMenuLesson = ({ lesson }: Props) => {
               </AlertDialogContent>
             </AlertDialog>
 
-            {/* MODIFIER IMAGE */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem
@@ -220,7 +210,6 @@ export const DropMenuLesson = ({ lesson }: Props) => {
               </AlertDialogContent>
             </AlertDialog>
 
-            {/* GÉRER CLASSES */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem
@@ -314,7 +303,6 @@ export const DropMenuLesson = ({ lesson }: Props) => {
 
             <DropdownMenuSeparator />
 
-            {/* SUPPRIMER */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem

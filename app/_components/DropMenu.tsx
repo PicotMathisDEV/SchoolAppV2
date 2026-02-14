@@ -29,6 +29,7 @@ import {
   HelpCircle,
   LayoutDashboard,
   LogOut,
+  PersonStanding,
   Puzzle,
   Settings,
   ShieldUser,
@@ -53,6 +54,10 @@ const DropMenu = ({ user }: Props) => {
   const settings = () => router.push("/settings");
   const dashboard = () => router.push("/dashboard");
   const gestion = () => router.push("/gestion");
+  const classes = () => router.push("/classes");
+  const quizz = () => router.push("/quizz");
+  const lessons = () => router.push("/lessons");
+  const parcours = () => router.push("/parcours");
 
   const handleSignOut = async () => {
     await signOut();
@@ -73,7 +78,7 @@ const DropMenu = ({ user }: Props) => {
                 className="object-cover"
               />
             </div>
-            <h2 className="font-semibold">{user?.name}</h2>
+            <h2 className="font-semibold screen">{user?.name}</h2>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end">
@@ -127,6 +132,28 @@ const DropMenu = ({ user }: Props) => {
             </>
           )}
           <DropdownMenuSeparator />
+          {user?.role === "user" && (
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="cursor-pointer" onClick={classes}>
+                <PersonStanding /> Ma classe
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="cursor-pointer" onClick={parcours}>
+                {" "}
+                <GraduationCapIcon />
+                Mes Parcours
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer" onClick={lessons}>
+                <Bookmark />
+                Mes lecons
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer" onClick={quizz}>
+                <HelpCircle />
+                Mes Quizz
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </DropdownMenuGroup>
+          )}
           <DropdownMenuItem className="cursor-pointer" onClick={settings}>
             <Settings /> Paramètres
           </DropdownMenuItem>

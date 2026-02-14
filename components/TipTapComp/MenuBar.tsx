@@ -178,7 +178,6 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
           </div>
         </div>
 
-        {/* Titres & Alignement */}
         <div className="flex items-center gap-1 flex-wrap justify-center">
           <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
             <MenuButton
@@ -246,7 +245,6 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
           </div>
         </div>
 
-        {/* Listes & Médias */}
         <div className="flex items-center gap-1 flex-wrap justify-center">
           <div className="flex items-center gap-0.5 bg-slate-50 p-1 rounded-lg border border-slate-200 shadow-sm">
             <MenuButton
@@ -299,7 +297,6 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
           </div>
         </div>
 
-        {/* Tableaux & Nettoyage */}
         <div className="flex items-center gap-1 flex-wrap justify-center">
           <div className="flex items-center gap-0.5 bg-emerald-50/50 p-1 rounded-lg border border-emerald-100 shadow-sm">
             <MenuButton

@@ -40,7 +40,6 @@ const SimpleEditor = ({ lesson }: Props) => {
       Superscript,
       Subscript,
       TableCell,
-      // Dans tes extensions :
       TextAlign.configure({
         types: ["heading", "paragraph", "image"],
         alignments: ["left", "center", "right"],

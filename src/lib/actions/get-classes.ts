@@ -20,3 +20,26 @@ export async function getClasses() {
     },
   });
 }
+
+export async function getMyClass() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) throw new Error("Non autorisé");
+
+  return await prisma.classe.findFirst({
+    where: {
+      students: {
+        some: {
+          id: session.user.id,
+        },
+      },
+    },
+    include: {
+      students: true,
+      lessons: true,
+      teacher: true,
+    },
+  });
+}
