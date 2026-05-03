@@ -38,12 +38,6 @@ importers:
       '@react-email/components':
         specifier: 1.0.4
         version: 1.0.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@tiptap-pro/extension-comments':
-        specifier: ^3.4.1
-        version: 3.4.1(@hocuspocus/provider@3.4.4(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(@hocuspocus/transformer@3.4.4(@tiptap/core@3.19.0(@tiptap/pm@3.19.0))(@tiptap/pm@3.19.0)(y-prosemirror@1.3.7(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.6)(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(yjs@13.6.29))(@tiptap-pro/provider@3.4.1(@hocuspocus/provider@3.4.4(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(lib0@0.2.117)(yjs@13.6.29))(@tiptap/core@3.19.0(@tiptap/pm@3.19.0))(@tiptap/pm@3.19.0)
-      '@tiptap-pro/extension-import-docx':
-        specifier: 1.0.0-beta.5
-        version: 1.0.0-beta.5(@tiptap/core@3.19.0(@tiptap/pm@3.19.0))(@tiptap/pm@3.19.0)
       '@tiptap/core':
         specifier: ^3.19.0
         version: 3.19.0(@tiptap/pm@3.19.0)
@@ -726,23 +720,6 @@ packages:
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
-  '@hocuspocus/common@3.4.4':
-    resolution: {integrity: sha512-RykIJ0tsHHMP4Xk+4UCbc7SO5LgGxGUSTdbh6anJEsaALAyqinf1Nn5HYuMjLPolAmsar1v++m9zufR09NLpXA==}
-
-  '@hocuspocus/provider@3.4.4':
-    resolution: {integrity: sha512-KbsMAfdYcIJD8eMU/5QnpXcSOvIWAcCNI33FSRSaKCIpYBFtAwkYIwWnZJmPZ8a1BMAtqQc+uvy9+UQf7GHnGQ==}
-    peerDependencies:
-      y-protocols: ^1.0.6
-      yjs: ^13.6.8
-
-  '@hocuspocus/transformer@3.4.4':
-    resolution: {integrity: sha512-X0EJ863LV97YbL5m8WTt4NDSC6uHi6ZCq/teIH5aholdjdhdTmFrzMemdhha/ZqPUZyaKhOoAmZzwR55HZLPpQ==}
-    peerDependencies:
-      '@tiptap/core': ^3.0.1
-      '@tiptap/pm': ^3.0.1
-      y-prosemirror: ^1.2.1
-      yjs: ^13.6.8
-
   '@hono/node-server@1.19.11':
     resolution: {integrity: sha512-dr8/3zEaB+p0D2n/IUrlPF1HZm586qgJNXK1a9fhg/PzdtkK7Ksd5l312tJX2yBuALqDYBlG20QEbayqPyxn+g==}
     engines: {node: '>=18.14.1'}
@@ -932,9 +909,6 @@ packages:
 
   '@kurkle/color@0.3.4':
     resolution: {integrity: sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==}
-
-  '@lifeomic/attempt@3.1.0':
-    resolution: {integrity: sha512-QZqem4QuAnAyzfz+Gj5/+SLxqwCAw2qmt7732ZXodr6VDWGeYLG6w1i/vYLa55JQM9wRuBKLmXmiZ2P0LtE5rw==}
 
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
@@ -2235,28 +2209,6 @@ packages:
     resolution: {integrity: sha512-w31dd8HOx3k9vPtcQh5QHP9GwKcgbMp87j58qi6xgiBnFFtKEAgCWnDw4qUT8aHwkCp8bKvb/KGKWWHedP0AAg==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders || >=4.0.0-alpha.20 || >=4.0.0-beta.1'
-
-  '@tiptap-pro/extension-comments@3.4.1':
-    resolution: {integrity: sha512-modhOZr5d9203FWFUQUqI/xyOSShUljklhb3tAigYL3JkJ+IiTAKUjRFImsb/ikYmrHk47pQeGhvii1d1sFlFw==}
-    peerDependencies:
-      '@hocuspocus/provider': ^3.2.0
-      '@hocuspocus/transformer': ^3.2.0
-      '@tiptap-pro/provider': 3.4.1
-      '@tiptap/core': ^3.0.1
-      '@tiptap/pm': ^3.0.1
-
-  '@tiptap-pro/extension-import-docx@1.0.0-beta.5':
-    resolution: {integrity: sha512-A8kjxx3Py0LOGD66WjZgJYkfgCUDMixAsQV8ai56GEb3P6iNdqbHnRiwnROwhcc3OVzpru1uHHm1y4iDVKB0Mw==}
-    peerDependencies:
-      '@tiptap/core': ^3.0.7
-      '@tiptap/pm': ^3.0.7
-
-  '@tiptap-pro/provider@3.4.1':
-    resolution: {integrity: sha512-Ck8JZVhY7K4QXfC7F3ThLJCE/bF86fY6FHI+yr+94BW2IKJDKfhAvm2zBbfi0Ys6YrRUBlbguY1eY44Fjy/GcA==}
-    peerDependencies:
-      '@hocuspocus/provider': ^3.2.0
-      lib0: ^0.2.99
-      yjs: ^13.6.20
 
   '@tiptap/core@3.19.0':
     resolution: {integrity: sha512-bpqELwPW+DG8gWiD8iiFtSl4vIBooG5uVJod92Qxn3rA9nFatyXRr4kNbMJmOZ66ezUvmCjXVe/5/G4i5cyzKA==}
@@ -3755,9 +3707,6 @@ packages:
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  isomorphic.js@0.2.5:
-    resolution: {integrity: sha512-PIeMbHqMt4DnUP3MA/Flc0HElYjMXArsw1qwJZcm9sqR8mq3l8NYizFMty0pWwE/tzIGH3EKK5+jes5mAr85yw==}
-
   iterator.prototype@1.1.5:
     resolution: {integrity: sha512-H0dkQoCa3b2VEeKQBOxFph+JAbcrQdE7KC0UkqwpLmv2EC4P41QXP+rqo9wYodACiG5/WM5s9oDApTU8utwj9g==}
     engines: {node: '>= 0.4'}
@@ -3841,11 +3790,6 @@ packages:
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
-
-  lib0@0.2.117:
-    resolution: {integrity: sha512-DeXj9X5xDCjgKLU/7RR+/HQEVzuuEUiwldwOGsHK/sfAfELGWEyTcf0x+uOvCvK3O2zPmZePXWL85vtia6GyZw==}
-    engines: {node: '>=16'}
-    hasBin: true
 
   lightningcss-android-arm64@1.30.2:
     resolution: {integrity: sha512-BH9sEdOCahSgmkVhBLeU7Hc9DWeZ1Eb6wNS6Da8igvUwAe0sqROHddIlvU06q3WyXVEOYDZ6ykBZQnjTbmo4+A==}
@@ -5021,28 +4965,8 @@ packages:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
 
-  y-prosemirror@1.3.7:
-    resolution: {integrity: sha512-NpM99WSdD4Fx4if5xOMDpPtU3oAmTSjlzh5U4353ABbRHl1HtAFUx6HlebLZfyFxXN9jzKMDkVbcRjqOZVkYQg==}
-    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
-    peerDependencies:
-      prosemirror-model: ^1.7.1
-      prosemirror-state: ^1.2.3
-      prosemirror-view: ^1.9.10
-      y-protocols: ^1.0.1
-      yjs: ^13.5.38
-
-  y-protocols@1.0.7:
-    resolution: {integrity: sha512-YSVsLoXxO67J6eE/nV4AtFtT3QEotZf5sK5BHxFBXso7VDUT3Tx07IfA6hsu5Q5OmBdMkQVmFZ9QOA7fikWvnw==}
-    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
-    peerDependencies:
-      yjs: ^13.0.0
-
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
-
-  yjs@13.6.29:
-    resolution: {integrity: sha512-kHqDPdltoXH+X4w1lVmMtddE3Oeqq48nM40FD5ojTd8xYhQpzIDcfE2keMSU5bAgRPJBe225WTUdyUgj1DtbiQ==}
-    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
 
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
@@ -5442,30 +5366,6 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  '@hocuspocus/common@3.4.4':
-    dependencies:
-      lib0: 0.2.117
-
-  '@hocuspocus/provider@3.4.4(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29)':
-    dependencies:
-      '@hocuspocus/common': 3.4.4
-      '@lifeomic/attempt': 3.1.0
-      lib0: 0.2.117
-      ws: 8.18.3
-      y-protocols: 1.0.7(yjs@13.6.29)
-      yjs: 13.6.29
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
-  '@hocuspocus/transformer@3.4.4(@tiptap/core@3.19.0(@tiptap/pm@3.19.0))(@tiptap/pm@3.19.0)(y-prosemirror@1.3.7(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.6)(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(yjs@13.6.29)':
-    dependencies:
-      '@tiptap/core': 3.19.0(@tiptap/pm@3.19.0)
-      '@tiptap/pm': 3.19.0
-      '@tiptap/starter-kit': 3.19.0
-      y-prosemirror: 1.3.7(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.6)(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29)
-      yjs: 13.6.29
-
   '@hono/node-server@1.19.11(hono@4.12.16)':
     dependencies:
       hono: 4.12.16
@@ -5613,8 +5513,6 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.5
 
   '@kurkle/color@0.3.4': {}
-
-  '@lifeomic/attempt@3.1.0': {}
 
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:
@@ -6876,25 +6774,6 @@ snapshots:
     dependencies:
       postcss-selector-parser: 6.0.10
       tailwindcss: 4.1.18
-
-  '@tiptap-pro/extension-comments@3.4.1(@hocuspocus/provider@3.4.4(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(@hocuspocus/transformer@3.4.4(@tiptap/core@3.19.0(@tiptap/pm@3.19.0))(@tiptap/pm@3.19.0)(y-prosemirror@1.3.7(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.6)(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(yjs@13.6.29))(@tiptap-pro/provider@3.4.1(@hocuspocus/provider@3.4.4(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(lib0@0.2.117)(yjs@13.6.29))(@tiptap/core@3.19.0(@tiptap/pm@3.19.0))(@tiptap/pm@3.19.0)':
-    dependencies:
-      '@hocuspocus/provider': 3.4.4(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29)
-      '@hocuspocus/transformer': 3.4.4(@tiptap/core@3.19.0(@tiptap/pm@3.19.0))(@tiptap/pm@3.19.0)(y-prosemirror@1.3.7(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.6)(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(yjs@13.6.29)
-      '@tiptap-pro/provider': 3.4.1(@hocuspocus/provider@3.4.4(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(lib0@0.2.117)(yjs@13.6.29)
-      '@tiptap/core': 3.19.0(@tiptap/pm@3.19.0)
-      '@tiptap/pm': 3.19.0
-
-  '@tiptap-pro/extension-import-docx@1.0.0-beta.5(@tiptap/core@3.19.0(@tiptap/pm@3.19.0))(@tiptap/pm@3.19.0)':
-    dependencies:
-      '@tiptap/core': 3.19.0(@tiptap/pm@3.19.0)
-      '@tiptap/pm': 3.19.0
-
-  '@tiptap-pro/provider@3.4.1(@hocuspocus/provider@3.4.4(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(lib0@0.2.117)(yjs@13.6.29)':
-    dependencies:
-      '@hocuspocus/provider': 3.4.4(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29)
-      lib0: 0.2.117
-      yjs: 13.6.29
 
   '@tiptap/core@3.19.0(@tiptap/pm@3.19.0)':
     dependencies:
@@ -8559,8 +8438,6 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  isomorphic.js@0.2.5: {}
-
   iterator.prototype@1.1.5:
     dependencies:
       define-data-property: 1.1.4
@@ -8631,10 +8508,6 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
-
-  lib0@0.2.117:
-    dependencies:
-      isomorphic.js: 0.2.5
 
   lightningcss-android-arm64@1.30.2:
     optional: true
@@ -9994,25 +9867,7 @@ snapshots:
 
   xtend@4.0.2: {}
 
-  y-prosemirror@1.3.7(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.6)(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29):
-    dependencies:
-      lib0: 0.2.117
-      prosemirror-model: 1.25.4
-      prosemirror-state: 1.4.4
-      prosemirror-view: 1.41.6
-      y-protocols: 1.0.7(yjs@13.6.29)
-      yjs: 13.6.29
-
-  y-protocols@1.0.7(yjs@13.6.29):
-    dependencies:
-      lib0: 0.2.117
-      yjs: 13.6.29
-
   yallist@3.1.1: {}
-
-  yjs@13.6.29:
-    dependencies:
-      lib0: 0.2.117
 
   yocto-queue@0.1.0: {}
 
