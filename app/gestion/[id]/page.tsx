@@ -52,6 +52,7 @@ import {
   Copy,
   RefreshCw,
   ListOrdered,
+  BarChart2,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -264,6 +265,12 @@ export default function Page() {
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
+
+              <Link href={`/gestion/${params.id}/suivi`}>
+                <Button variant="outline" className="gap-2 cursor-pointer">
+                  <BarChart2 className="w-4 h-4" /> Suivi élèves
+                </Button>
+              </Link>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

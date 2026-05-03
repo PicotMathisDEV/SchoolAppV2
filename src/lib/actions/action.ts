@@ -128,6 +128,49 @@ export async function clearStudentPassword() {
   });
 }
 
+export async function getClassStudentProgress(classeId: string) {
+  const session = await getSession();
+  await assertClassOwner(classeId, session.user.id);
+
+  return await prisma.classe.findUnique({
+    where: { id: classeId },
+    select: {
+      id: true,
+      name: true,
+      students: {
+        select: { id: true, name: true, image: true },
+      },
+      parcours: {
+        select: {
+          id: true,
+          title: true,
+          steps: {
+            select: {
+              id: true,
+              order: true,
+              lesson: { select: { id: true, title: true } },
+              quiz: { select: { id: true, title: true, _count: { select: { questions: true } } } },
+              completions: { select: { userId: true, lessonDone: true } },
+            },
+            orderBy: { order: "asc" },
+          },
+        },
+      },
+      quizzes: {
+        select: {
+          id: true,
+          title: true,
+          _count: { select: { questions: true } },
+          results: {
+            select: { userId: true, score: true, total: true, createdAt: true },
+            orderBy: { createdAt: "desc" },
+          },
+        },
+      },
+    },
+  });
+}
+
 export async function ModifyClassName(classeId: string, newName: string) {
   if (!newName?.trim()) throw new Error("Nom requis");
 
