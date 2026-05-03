@@ -6,7 +6,7 @@ import { render } from "@react-email/components";
 import ForgotPasswordEmail from "./emails/reset-password";
 import VerifyEmail from "./emails/verfify-email";
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
+export const resend = new Resend(process.env.RESEND_API_KEY ?? "");
 const FROM = "no-reply@schoolappproject.shop";
 
 export const teacherCreatedEmails = new Set<string>();
