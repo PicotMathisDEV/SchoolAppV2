@@ -5,7 +5,7 @@ import { FileUploadComponent } from "./FileUploadComponent";
 export const FileExtension = Node.create({
   name: "fileUploadBlock",
   group: "block",
-  atom: true, // Empêche l'édition de texte à l'intérieur
+  atom: true, 
 
   addAttributes() {
     return {

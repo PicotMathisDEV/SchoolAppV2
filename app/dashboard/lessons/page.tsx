@@ -82,7 +82,6 @@ export default async function MyLessonsPage() {
           </div>
         )}
 
-        {/* Via parcours */}
         {parcoursLessons.length > 0 && (
           <section className="space-y-3">
             <div className="flex items-center gap-2">
@@ -110,7 +109,6 @@ export default async function MyLessonsPage() {
           </section>
         )}
 
-        {/* Accès direct */}
         {directLessons.length > 0 && (
           <section className="space-y-3">
             <div className="flex items-center gap-2">

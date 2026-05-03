@@ -9,8 +9,6 @@ import VerifyEmail from "./emails/verfify-email";
 export const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = "no-reply@schoolappproject.shop";
 
-// Emails being created server-side by a teacher — skip the signup verification email,
-// sendOnSignIn will send it when the student first tries to log in.
 export const teacherCreatedEmails = new Set<string>();
 
 export const auth = betterAuth({
@@ -38,7 +36,7 @@ export const auth = betterAuth({
     expiresIn: 3600,
     sendOnSignIn: true,
     sendVerificationEmail: async ({ user, url }) => {
-      // Skip if this account was created by a teacher — the email will be sent at first login
+
       if (teacherCreatedEmails.has(user.email)) {
         teacherCreatedEmails.delete(user.email);
         return;

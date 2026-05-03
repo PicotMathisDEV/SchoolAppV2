@@ -70,7 +70,6 @@ export default async function MyQuizzesPage() {
           </div>
         )}
 
-        {/* Via parcours */}
         {parcoursResults.length > 0 && (
           <section className="space-y-3">
             <div className="flex items-center gap-2">
@@ -128,7 +127,6 @@ export default async function MyQuizzesPage() {
           </section>
         )}
 
-        {/* Accès direct */}
         {directQuizzes.length > 0 && (
           <section className="space-y-3">
             <div className="flex items-center gap-2">

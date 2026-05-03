@@ -163,7 +163,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-slate-50/50 pb-12">
-      {/* Header */}
+
       <div className="border-b bg-white shadow-sm mb-8">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -186,7 +186,7 @@ export default function Page() {
       </div>
 
       <main className="max-w-7xl mx-auto px-6 space-y-10">
-        {/* ── Élèves ───────────────────────────────────────────────────── */}
+
         <section>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <div>
@@ -378,7 +378,6 @@ export default function Page() {
           )}
         </section>
 
-        {/* ── Lien d'invitation ───────────────────────────────────────── */}
         <section className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
           <div className="flex items-center gap-2 mb-4">
             <Link2 className="w-5 h-5 text-blue-600" />
@@ -434,7 +433,6 @@ export default function Page() {
           )}
         </section>
 
-        {/* ── Leçons attribuées ────────────────────────────────────────── */}
         <section>
           <div className="flex items-center gap-2 mb-4">
             <BookOpen className="w-5 h-5 text-blue-600" />
@@ -488,7 +486,6 @@ export default function Page() {
           )}
         </section>
 
-        {/* ── Quiz attribués ───────────────────────────────────────────── */}
         <section>
           <div className="flex items-center gap-2 mb-4">
             <HelpCircle className="w-5 h-5 text-indigo-600" />
@@ -546,7 +543,6 @@ export default function Page() {
           )}
         </section>
 
-        {/* ── Parcours attribués ──────────────────────────────────────── */}
         <section>
           <div className="flex items-center gap-2 mb-4">
             <ListOrdered className="w-5 h-5 text-blue-600" />
@@ -600,7 +596,6 @@ export default function Page() {
         </section>
       </main>
 
-      {/* ── Modals rename / delete ───────────────────────────────────── */}
       <AlertDialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>

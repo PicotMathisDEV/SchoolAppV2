@@ -143,7 +143,7 @@ export const QuizDropSettings = ({ quiz }: Props) => {
           <DropdownMenuSeparator />
 
           <DropdownMenuGroup>
-            {/* Edit title + description */}
+
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem
@@ -196,7 +196,6 @@ export const QuizDropSettings = ({ quiz }: Props) => {
               </AlertDialogContent>
             </AlertDialog>
 
-            {/* Change image */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem
@@ -231,7 +230,6 @@ export const QuizDropSettings = ({ quiz }: Props) => {
               </AlertDialogContent>
             </AlertDialog>
 
-            {/* Link to classes */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem
@@ -307,7 +305,6 @@ export const QuizDropSettings = ({ quiz }: Props) => {
 
             <DropdownMenuSeparator />
 
-            {/* Delete */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem

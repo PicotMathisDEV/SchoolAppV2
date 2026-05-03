@@ -129,7 +129,7 @@ export default function ParcoursEditorPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Sticky header */}
+
       <div className="bg-white border-b border-slate-100 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -166,7 +166,7 @@ export default function ParcoursEditorPage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-6 py-8 space-y-8">
-        {/* Title */}
+
         <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
           <label className="text-sm font-semibold text-slate-600 block mb-2">
             Titre du parcours
@@ -179,7 +179,6 @@ export default function ParcoursEditorPage() {
           />
         </section>
 
-        {/* Steps */}
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-bold text-slate-800">
@@ -236,7 +235,7 @@ export default function ParcoursEditorPage() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Lesson selector */}
+
                 <div>
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 mb-1.5">
                     <BookOpen className="w-3.5 h-3.5" /> Leçon
@@ -255,7 +254,6 @@ export default function ParcoursEditorPage() {
                   </select>
                 </div>
 
-                {/* Quiz selector */}
                 <div>
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-indigo-600 mb-1.5">
                     <HelpCircle className="w-3.5 h-3.5" /> Quiz
@@ -284,7 +282,6 @@ export default function ParcoursEditorPage() {
           ))}
         </section>
 
-        {/* Classes assignment */}
         <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
           <h2 className="text-base font-bold text-slate-800 mb-4">
             Assigner aux classes
@@ -313,7 +310,6 @@ export default function ParcoursEditorPage() {
           )}
         </section>
 
-        {/* Bottom save */}
         <div className="flex justify-end">
           <Button
             onClick={handleSave}

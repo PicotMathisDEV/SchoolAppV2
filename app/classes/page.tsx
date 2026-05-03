@@ -28,7 +28,7 @@ export default function ClassePage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Header */}
+
       <div className="border-b bg-white shadow-sm mb-8">
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -60,7 +60,6 @@ export default function ClassePage() {
       ) : (
         <div className="max-w-5xl mx-auto px-6 space-y-12 pb-16">
 
-          {/* ── Camarades ───────────────────────────────────────────────── */}
           <section>
             <div className="flex items-center gap-2 mb-4">
               <Users className="w-5 h-5 text-blue-600" />
@@ -97,7 +96,6 @@ export default function ClassePage() {
             )}
           </section>
 
-          {/* ── Leçons ──────────────────────────────────────────────────── */}
           <section>
             <div className="flex items-center gap-2 mb-4">
               <BookOpen className="w-5 h-5 text-blue-600" />
@@ -131,7 +129,6 @@ export default function ClassePage() {
             )}
           </section>
 
-          {/* ── Quiz ────────────────────────────────────────────────────── */}
           <section>
             <div className="flex items-center gap-2 mb-4">
               <HelpCircle className="w-5 h-5 text-indigo-600" />

@@ -68,7 +68,7 @@ export default function QuizEditPage() {
       <QuizDropSettings quiz={quiz} />
 
       <div className="max-w-3xl mx-auto px-6 pt-16 pb-20">
-        {/* Header */}
+
         <div className="flex flex-col gap-4 mb-10">
           {quiz.image && (
             <div className="relative w-full h-48 rounded-2xl overflow-hidden shadow-sm">
@@ -103,7 +103,6 @@ export default function QuizEditPage() {
           </div>
         </div>
 
-        {/* Editor */}
         <QuizEditorForm quizId={quiz.id} initialQuestions={quiz.questions} />
       </div>
     </div>

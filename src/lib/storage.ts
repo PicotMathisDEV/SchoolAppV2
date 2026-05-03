@@ -18,7 +18,6 @@ export async function uploadImage(file: File, folder: string, name: string): Pro
     return blob.url;
   }
 
-  // Local fallback: write to /public/
   const publicFolder = join(process.cwd(), "public", folder);
   await mkdir(publicFolder, { recursive: true });
   const buffer = Buffer.from(await file.arrayBuffer());
@@ -35,7 +34,6 @@ export async function deleteImage(url: string | null | undefined): Promise<void>
     return;
   }
 
-  // Local: delete from /public/
   if (url.startsWith("/")) {
     const { unlink } = await import("fs/promises");
     await unlink(join(process.cwd(), "public", url)).catch(() => {});

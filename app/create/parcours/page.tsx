@@ -84,7 +84,7 @@ export default function CreateParcoursPage() {
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-8">
-      {/* Header */}
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-6">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Mes Parcours</h1>
@@ -154,7 +154,6 @@ export default function CreateParcoursPage() {
         </div>
       </div>
 
-      {/* Liste */}
       {parcoursList.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <ListOrdered className="w-16 h-16 text-blue-200 mb-4" />

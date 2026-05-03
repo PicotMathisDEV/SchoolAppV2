@@ -64,7 +64,6 @@ function StudentGuide() {
   return (
     <div className="space-y-10">
 
-      {/* Section 1: Vue d'ensemble — schema matching the image */}
       <section>
         <h2 className="text-base font-bold text-slate-700 mb-5 flex items-center gap-2">
           <span className="w-6 h-6 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center font-black">1</span>
@@ -72,7 +71,7 @@ function StudentGuide() {
         </h2>
 
         <div className="space-y-3">
-          {/* Page d'accueil */}
+
           <div className="flex justify-center">
             <div className="bg-blue-600 text-white rounded-2xl px-8 py-4 text-center shadow-lg">
               <p className="font-black text-lg">Page d&apos;accueil</p>
@@ -85,7 +84,6 @@ function StudentGuide() {
             <Arrow dir="down" />
           </div>
 
-          {/* Parcours + Libre accès */}
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-blue-50 border-2 border-blue-300 rounded-2xl p-5">
               <div className="flex items-center gap-2 mb-3">
@@ -111,12 +109,10 @@ function StudentGuide() {
             </div>
           </div>
 
-          {/* Arrow from Parcours side only */}
           <div className="flex justify-start pl-[calc(25%-12px)]">
             <Arrow dir="down" />
           </div>
 
-          {/* Leçons (left side, under Parcours) */}
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-blue-50 border-2 border-blue-300 rounded-2xl p-5">
               <div className="flex items-center gap-2 mb-3">
@@ -138,7 +134,6 @@ function StudentGuide() {
             <Arrow dir="down" />
           </div>
 
-          {/* Quizz */}
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-blue-50 border-2 border-blue-300 rounded-2xl p-5">
               <div className="flex items-center gap-2 mb-3">
@@ -158,7 +153,6 @@ function StudentGuide() {
         </div>
       </section>
 
-      {/* Section 2: Suivre un parcours */}
       <section>
         <h2 className="text-base font-bold text-slate-700 mb-4 flex items-center gap-2">
           <span className="w-6 h-6 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center font-black">2</span>
@@ -221,7 +215,6 @@ function StudentGuide() {
         </div>
       </section>
 
-      {/* Section 3: Libre accès */}
       <section>
         <h2 className="text-base font-bold text-slate-700 mb-4 flex items-center gap-2">
           <span className="w-6 h-6 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center font-black">3</span>

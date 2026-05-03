@@ -18,8 +18,6 @@ import { ResizableImageExtension } from "./ResizableImageExtension";
 import { MenuBar } from "./MenuBar";
 import { AlignLeft, AlignCenter, AlignRight, Maximize2, Trash2 } from "lucide-react";
 
-/* ─── Floating image toolbar ─────────────────────────────────────────────── */
-
 type ToolbarState = {
   top: number;
   left: number;
@@ -147,8 +145,6 @@ function ImageFloatingToolbar({ editor }: { editor: Editor }) {
     document.body,
   );
 }
-
-/* ─── Editor ─────────────────────────────────────────────────────────────── */
 
 type Props = {
   lesson: {

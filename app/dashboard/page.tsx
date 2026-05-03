@@ -68,7 +68,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-slate-50">
       <GuidePopup role={session.user.role ?? "student"} userId={session.user.id} />
       <div className="max-w-5xl mx-auto p-6 space-y-8">
-        {/* Header */}
+
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">
@@ -90,7 +90,6 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* Rejoindre une classe */}
         <form onSubmit={handleJoin} className="flex gap-2">
           <input
             type="text"
@@ -110,7 +109,6 @@ export default function DashboardPage() {
           </button>
         </form>
 
-        {/* Classes info */}
         {myClasses.length > 0 && (
           <div className="flex flex-wrap gap-3">
             {myClasses.map((classe) => (
@@ -134,7 +132,6 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Parcours */}
         {myParcours.length === 0 ? (
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-10 text-center">
             <GraduationCap className="w-12 h-12 text-slate-300 mx-auto mb-3" />

@@ -143,9 +143,9 @@ export default function QuizEditorForm({ quizId, initialQuestions }: Props) {
           key={field.id}
           className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-5"
         >
-          {/* Question row */}
+
           <div className="flex items-start gap-4">
-            {/* Question image 72×72 */}
+
             <div className="shrink-0 relative">
               <input
                 type="file"
@@ -159,7 +159,7 @@ export default function QuizEditorForm({ quizId, initialQuestions }: Props) {
                 className="flex items-center justify-center w-18 h-18 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 overflow-hidden bg-gray-50 transition-colors"
               >
                 {questionPreviews[qIndex] ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
+
                   <img
                     src={questionPreviews[qIndex]}
                     alt=""
@@ -183,7 +183,6 @@ export default function QuizEditorForm({ quizId, initialQuestions }: Props) {
               )}
             </div>
 
-            {/* Question text */}
             <div className="flex-1 min-w-0">
               <span className="text-xs font-black uppercase tracking-widest text-indigo-500">
                 Question {qIndex + 1}
@@ -211,7 +210,6 @@ export default function QuizEditorForm({ quizId, initialQuestions }: Props) {
             </button>
           </div>
 
-          {/* Options */}
           <NestedOptions
             nestIndex={qIndex}
             control={control}
@@ -222,7 +220,6 @@ export default function QuizEditorForm({ quizId, initialQuestions }: Props) {
         </div>
       ))}
 
-      {/* Add question */}
       <button
         type="button"
         onClick={() => {
@@ -247,8 +244,6 @@ export default function QuizEditorForm({ quizId, initialQuestions }: Props) {
     </form>
   );
 }
-
-/* ─── Options imbriquées ─────────────────────────────────────────────────── */
 
 function NestedOptions({
   nestIndex,
@@ -320,7 +315,7 @@ function NestedOptions({
               isCorrect ? "bg-emerald-50 border-emerald-300" : "border-transparent"
             }`}
           >
-            {/* Mode toggle */}
+
             <div className="shrink-0 flex rounded-lg border border-gray-200 overflow-hidden">
               <button
                 type="button"
@@ -354,7 +349,6 @@ function NestedOptions({
               </button>
             </div>
 
-            {/* Contenu selon mode */}
             {mode === "text" ? (
               <input
                 {...register(`questions.${nestIndex}.options.${oIndex}.text` as const)}
@@ -375,7 +369,7 @@ function NestedOptions({
                   className="relative flex items-center justify-center w-18 h-18 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 overflow-hidden bg-gray-50 transition-colors"
                 >
                   {optionImage ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
+
                     <img src={optionImage} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <div className="flex flex-col items-center gap-1">
@@ -398,7 +392,6 @@ function NestedOptions({
               </div>
             )}
 
-            {/* Bonne réponse */}
             <button
               type="button"
               onClick={() => selectCorrect(oIndex)}

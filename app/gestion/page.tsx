@@ -194,7 +194,7 @@ export default function Page() {
             </CardHeader>
 
             <CardContent className="p-5 pt-2 flex flex-col gap-3">
-              {/* Badges leçons / quiz */}
+
               <div className="flex flex-wrap gap-2">
                 <span className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">
                   <BookOpen className="w-3 h-3" />

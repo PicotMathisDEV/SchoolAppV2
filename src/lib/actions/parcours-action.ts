@@ -19,8 +19,6 @@ async function assertParcoursOwner(parcoursId: string, userId: string) {
   if (!p || p.teacherId !== userId) throw new Error("Non autorisé");
 }
 
-/* ─── Teacher: list ─────────────────────────────────────────────────────── */
-
 export async function getParcoursList() {
   const session = await getSession();
   return prisma.parcours.findMany({
@@ -29,8 +27,6 @@ export async function getParcoursList() {
     orderBy: { createdAt: "desc" },
   });
 }
-
-/* ─── Teacher: create ───────────────────────────────────────────────────── */
 
 export async function createParcours(title: string) {
   if (!title.trim()) throw new Error("Titre requis");
@@ -42,16 +38,12 @@ export async function createParcours(title: string) {
   return p;
 }
 
-/* ─── Teacher: delete ───────────────────────────────────────────────────── */
-
 export async function deleteParcours(id: string) {
   const session = await getSession();
   await assertParcoursOwner(id, session.user.id);
   await prisma.parcours.delete({ where: { id } });
   revalidatePath("/create/parcours");
 }
-
-/* ─── Teacher: get for editing ──────────────────────────────────────────── */
 
 export async function getParcoursForEdit(id: string) {
   const session = await getSession();
@@ -71,8 +63,6 @@ export async function getParcoursForEdit(id: string) {
   if (!p || p.teacherId !== session.user.id) throw new Error("Non autorisé");
   return p;
 }
-
-/* ─── Teacher: get resources (lessons/quizzes/classes) for selectors ────── */
 
 export async function getTeacherResources() {
   const session = await getSession();
@@ -95,8 +85,6 @@ export async function getTeacherResources() {
   ]);
   return { lessons, quizzes, classes };
 }
-
-/* ─── Teacher: save parcours edits ─────────────────────────────────────── */
 
 export async function saveParcoursEdit(
   id: string,
@@ -135,8 +123,6 @@ export async function saveParcoursEdit(
   revalidatePath(`/create/parcours/${id}`);
 }
 
-/* ─── Student: mark lesson done ─────────────────────────────────────────── */
-
 export async function markLessonDone(stepId: string) {
   const session = await getSession();
 
@@ -166,8 +152,6 @@ export async function markLessonDone(stepId: string) {
 
   revalidatePath(`/dashboard/parcours/${step.parcoursId}`);
 }
-
-/* ─── Student: get parcours with progress ──────────────────────────────── */
 
 export async function getParcoursForStudent(parcoursId: string) {
   const session = await getSession();
@@ -206,7 +190,6 @@ export async function getParcoursForStudent(parcoursId: string) {
   );
   if (!isTeacher && !isStudent) throw new Error("Accès refusé");
 
-  // Fetch latest quiz result per quiz
   const quizIds = parcours.steps
     .filter((s) => s.quizId)
     .map((s) => s.quizId as string);
@@ -257,8 +240,6 @@ export async function getParcoursForStudent(parcoursId: string) {
   };
 }
 
-/* ─── Student: dashboard parcours list ─────────────────────────────────── */
-
 export async function getStudentParcours(classIds: string[]) {
   if (classIds.length === 0) return [];
   return prisma.parcours.findMany({
@@ -270,8 +251,6 @@ export async function getStudentParcours(classIds: string[]) {
     orderBy: { createdAt: "asc" },
   });
 }
-
-/* ─── Student: completed lessons (via parcours) ─────────────────────────── */
 
 export async function getStudentCompletedLessons() {
   const session = await getSession();
@@ -311,8 +290,6 @@ export async function getStudentCompletedLessons() {
     .map((c) => ({ ...c.step.lesson!, parcours: c.step.parcours }));
 }
 
-/* ─── Student: completed quizzes (via parcours results) ─────────────────── */
-
 export async function getStudentCompletedQuizzes() {
   const session = await getSession();
 
@@ -324,7 +301,6 @@ export async function getStudentCompletedQuizzes() {
     orderBy: { createdAt: "desc" },
   });
 
-  // Best result per quiz
   const seen = new Set<string>();
   return results.filter((r) => {
     if (seen.has(r.quizId)) return false;
@@ -332,8 +308,6 @@ export async function getStudentCompletedQuizzes() {
     return true;
   });
 }
-
-/* ─── Student: lessons directly assigned to class (no parcours required) ── */
 
 export async function getStudentDirectLessons() {
   const session = await getSession();
@@ -346,8 +320,6 @@ export async function getStudentDirectLessons() {
     orderBy: { title: "asc" },
   });
 }
-
-/* ─── Student: quizzes directly assigned to class (no parcours required) ── */
 
 export async function getStudentDirectQuizzes() {
   const session = await getSession();

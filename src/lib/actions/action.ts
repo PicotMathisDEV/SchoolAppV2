@@ -43,8 +43,7 @@ export async function createStudentAndAssignToClass(
   const session = await getSession();
   await assertClassOwner(classeId, session.user.id);
 
-  // Flag this email so sendVerificationEmail skips it — the student will get
-  // the email when they first try to log in (sendOnSignIn: true).
+  
   teacherCreatedEmails.add(email);
 
   const result = await auth.api.signUpEmail({
@@ -57,8 +56,7 @@ export async function createStudentAndAssignToClass(
     throw new Error("Erreur lors de la création du compte élève");
   }
 
-  // Set role and store temporary plaintext password — do NOT set emailVerified: true
-  // so BetterAuth sends the verification email at first login attempt.
+  
   await prisma.user.update({
     where: { id: result.user.id },
     data: { role: "student", password },

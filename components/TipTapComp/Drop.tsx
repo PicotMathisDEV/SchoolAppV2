@@ -66,7 +66,7 @@ type Lesson = {
 
 type Props = {
   lesson: Lesson;
-  editor: Editor | null; // Ajoute l'éditeur ici
+  editor: Editor | null; 
 };
 
 export const Drop = ({ lesson }: Props) => {

@@ -65,7 +65,7 @@ export default function QuizPlayer({ quiz, user }: { quiz: Quiz; user: User }) {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      {/* Top bar */}
+
       <div className="bg-white border-b border-slate-100 px-6 py-4">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center justify-between mb-2">
@@ -86,13 +86,12 @@ export default function QuizPlayer({ quiz, user }: { quiz: Quiz; user: User }) {
         </div>
       </div>
 
-      {/* Question */}
       <div className="flex-1 flex flex-col max-w-2xl mx-auto w-full px-6 py-8 gap-6">
-        {/* Question card */}
+
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex gap-4">
           {question.image && (
             <div className="relative w-18 h-18 shrink-0 rounded-xl overflow-hidden border border-slate-100">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+
               <img
                 src={question.image}
                 alt=""
@@ -110,7 +109,6 @@ export default function QuizPlayer({ quiz, user }: { quiz: Quiz; user: User }) {
           </div>
         </div>
 
-        {/* Options */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {question.options.map((opt) => {
             const isSelected = selected === opt.id;
@@ -124,7 +122,7 @@ export default function QuizPlayer({ quiz, user }: { quiz: Quiz; user: User }) {
                     : "border-slate-100 bg-white hover:border-indigo-200 hover:bg-indigo-50/40 shadow-sm"
                   }`}
               >
-                {/* Radio indicator */}
+
                 <div
                   className={`w-5 h-5 rounded-full border-2 shrink-0 flex items-center justify-center transition-colors
                     ${isSelected ? "border-indigo-500 bg-indigo-500" : "border-slate-300 group-hover:border-indigo-300"}`}
@@ -132,10 +130,9 @@ export default function QuizPlayer({ quiz, user }: { quiz: Quiz; user: User }) {
                   {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
                 </div>
 
-                {/* Option content */}
                 {opt.image ? (
                   <div className="flex items-center gap-3">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
+
                     <img
                       src={opt.image}
                       alt=""
@@ -155,7 +152,6 @@ export default function QuizPlayer({ quiz, user }: { quiz: Quiz; user: User }) {
           })}
         </div>
 
-        {/* Navigation */}
         <div className="flex items-center justify-between mt-auto pt-4">
           <button
             onClick={() => setStep((s) => s - 1)}
@@ -166,7 +162,6 @@ export default function QuizPlayer({ quiz, user }: { quiz: Quiz; user: User }) {
             Précédent
           </button>
 
-          {/* Dots */}
           <div className="flex gap-1.5">
             {quiz.questions.map((_, i) => (
               <button

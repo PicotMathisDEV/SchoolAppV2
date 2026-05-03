@@ -10,8 +10,6 @@ async function getSession() {
   return session;
 }
 
-/* ─── Fetch quiz for student (access check) ─────────────────────────────── */
-
 export async function getQuizForStudent(quizId: string) {
   const session = await getSession();
 
@@ -50,7 +48,6 @@ export async function getQuizForStudent(quizId: string) {
   if (!isTeacher && !isStudentViaClass && !isStudentViaParcours)
     throw new Error("Accès refusé");
 
-  // Don't expose which option is correct to the client
   return {
     id: quiz.id,
     title: quiz.title,
@@ -68,8 +65,6 @@ export async function getQuizForStudent(quizId: string) {
     })),
   };
 }
-
-/* ─── Submit attempt ─────────────────────────────────────────────────────── */
 
 export async function submitQuizAttempt(
   quizId: string,
@@ -147,8 +142,6 @@ export async function submitQuizAttempt(
   }
 }
 
-/* ─── Get a single result with full breakdown ────────────────────────────── */
-
 export async function getQuizResult(resultId: string) {
   const session = await getSession();
 
@@ -169,8 +162,6 @@ export async function getQuizResult(resultId: string) {
 
   return result;
 }
-
-/* ─── Student dashboard data ─────────────────────────────────────────────── */
 
 export async function getStudentDashboard() {
   const session = await getSession();

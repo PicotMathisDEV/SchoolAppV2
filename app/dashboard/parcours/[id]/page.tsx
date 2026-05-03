@@ -37,7 +37,7 @@ export default async function ParcoursPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Top bar */}
+
       <div className="bg-white border-b border-slate-100 sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-3">
           <Link
@@ -55,12 +55,11 @@ export default async function ParcoursPage({ params }: Props) {
       </div>
 
       <div className="max-w-3xl mx-auto px-6 py-8 space-y-6">
-        {/* Header card */}
+
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
           <h1 className="text-2xl font-bold text-slate-900 mb-1">{parcours.title}</h1>
           <p className="text-sm text-slate-400 mb-4">Par {parcours.teacherName}</p>
 
-          {/* Progress bar */}
           <div className="space-y-1.5">
             <div className="flex justify-between text-xs font-semibold text-slate-500">
               <span>Progression</span>
@@ -79,7 +78,6 @@ export default async function ParcoursPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Steps */}
         <div className="space-y-4">
           {parcours.steps.map((step, i) => {
             const locked = !step.unlocked;
@@ -96,7 +94,7 @@ export default async function ParcoursPage({ params }: Props) {
                     : "border-violet-100"
                 }`}
               >
-                {/* Step header */}
+
                 <div
                   className={`px-5 py-3 flex items-center justify-between text-xs font-black uppercase tracking-widest ${
                     locked
@@ -117,7 +115,7 @@ export default async function ParcoursPage({ params }: Props) {
                 </div>
 
                 <div className="p-5 space-y-4">
-                  {/* Lesson part */}
+
                   {step.lesson && (
                     <div className="flex items-center gap-4">
                       <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-slate-100">
@@ -160,12 +158,10 @@ export default async function ParcoursPage({ params }: Props) {
                     </div>
                   )}
 
-                  {/* Divider between lesson and quiz */}
                   {step.lesson && step.quiz && (
                     <div className="h-px bg-slate-100" />
                   )}
 
-                  {/* Quiz part */}
                   {step.quiz && (
                     <div className="flex items-center gap-4">
                       <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-slate-100">
@@ -229,7 +225,6 @@ export default async function ParcoursPage({ params }: Props) {
           })}
         </div>
 
-        {/* Completed banner */}
         {parcours.completedSteps === parcours.totalSteps &&
           parcours.totalSteps > 0 && (
             <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center">

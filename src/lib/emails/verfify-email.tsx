@@ -25,12 +25,10 @@ const VerifyEmail = ({ username, verifyUrl }: VerifyEmailProps) => {
         <Body className="bg-slate-100 py-10 font-sans">
           <Container className="bg-white mx-auto max-w-xl rounded-2xl overflow-hidden shadow-sm">
 
-            {/* Header bleu */}
             <Section className="bg-blue-600 px-10 py-6 text-center">
               <Text className="text-white font-bold text-lg m-0 tracking-wide">✉ Vérification d&apos;email</Text>
             </Section>
 
-            {/* Contenu */}
             <Section className="px-10 py-8">
               <Heading className="text-xl font-bold text-slate-900 m-0 mb-4">
                 Vérifiez votre email
@@ -63,7 +61,6 @@ const VerifyEmail = ({ username, verifyUrl }: VerifyEmailProps) => {
               </Text>
             </Section>
 
-            {/* Footer */}
             <Section className="bg-slate-50 px-10 py-5 border-t border-slate-200">
               <Text className="text-xs text-slate-400 m-0 text-center">
                 Si vous n&apos;avez pas créé de compte, ignorez cet email.

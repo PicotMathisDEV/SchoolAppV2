@@ -68,7 +68,7 @@ const EditSettings = ({ user }: Props) => {
       toast.success("Mot de passe mis à jour avec succès");
       setCurrentPassword("");
       setNewPassword("");
-      // Clear the temporary password stored by the teacher
+
       await clearStudentPassword().catch(() => {});
     }
     setIsChangingPassword(false);

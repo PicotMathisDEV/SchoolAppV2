@@ -63,7 +63,7 @@ export default function VerifyEmailPage() {
 
       toast.success("Email de vérification envoyé");
 
-      const endTime = Date.now() + 600000; // 300,000ms = 5 minutes
+      const endTime = Date.now() + 600000; 
       localStorage.setItem("emailCooldownEnd", endTime.toString());
       setCountDown(600);
     } catch (error) {

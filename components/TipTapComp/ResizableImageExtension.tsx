@@ -6,8 +6,6 @@ import type { NodeViewProps } from "@tiptap/core";
 import { GripVertical } from "lucide-react";
 import { useCallback, useRef } from "react";
 
-/* ─── NodeView : image + poignées de resize ─────────────────────────────── */
-
 function ResizableImageView({ node, updateAttributes, selected }: NodeViewProps) {
   const { src, alt, title, width, align } = node.attrs as {
     src: string;
@@ -56,14 +54,14 @@ function ResizableImageView({ node, updateAttributes, selected }: NodeViewProps)
 
   return (
     <NodeViewWrapper style={wrapperStyle}>
-      {/* conteneur qui porte le ring + les poignées */}
+
       <div
         className={`relative inline-block select-none transition-shadow duration-150 ${
           selected ? "ring-2 ring-blue-500 ring-offset-2 rounded-[3px]" : ""
         }`}
         style={{ width: align === "full" ? "100%" : "auto" }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+
         <img
           ref={imgRef}
           src={src}
@@ -73,10 +71,9 @@ function ResizableImageView({ node, updateAttributes, selected }: NodeViewProps)
           draggable={false}
         />
 
-        {/* Poignées (uniquement quand sélectionné et non pleine largeur) */}
         {selected && align !== "full" && (
           <>
-            {/* gauche */}
+
             <div
               onMouseDown={(e) => startResize(e, "left")}
               className="absolute top-1/2 -left-2.5 -translate-y-1/2
@@ -89,7 +86,6 @@ function ResizableImageView({ node, updateAttributes, selected }: NodeViewProps)
               <GripVertical size={10} className="text-white" />
             </div>
 
-            {/* droite */}
             <div
               onMouseDown={(e) => startResize(e, "right")}
               className="absolute top-1/2 -right-2.5 -translate-y-1/2
@@ -102,7 +98,6 @@ function ResizableImageView({ node, updateAttributes, selected }: NodeViewProps)
               <GripVertical size={10} className="text-white" />
             </div>
 
-            {/* coin bas-droite */}
             <div
               onMouseDown={(e) => startResize(e, "right")}
               className="absolute -bottom-2 -right-2
@@ -112,7 +107,7 @@ function ResizableImageView({ node, updateAttributes, selected }: NodeViewProps)
                          border-2 border-white
                          transition-colors z-50"
             />
-            {/* coin bas-gauche */}
+
             <div
               onMouseDown={(e) => startResize(e, "left")}
               className="absolute -bottom-2 -left-2
@@ -128,8 +123,6 @@ function ResizableImageView({ node, updateAttributes, selected }: NodeViewProps)
     </NodeViewWrapper>
   );
 }
-
-/* ─── Extension TipTap ───────────────────────────────────────────────────── */
 
 export const ResizableImageExtension = Image.extend({
   name: "image",

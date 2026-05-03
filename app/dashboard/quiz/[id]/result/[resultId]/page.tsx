@@ -50,7 +50,6 @@ export default async function ResultPage({ params }: Props) {
       </div>
       <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
 
-        {/* Score card */}
         <div className={`bg-gradient-to-b ${bgColor} rounded-3xl border border-slate-100 shadow-sm p-8 text-center`}>
           <div className="text-5xl mb-3">{emoji}</div>
           <h1 className="text-2xl font-black text-slate-800 mb-1">{result.quiz.title}</h1>
@@ -80,7 +79,6 @@ export default async function ResultPage({ params }: Props) {
           )}
         </div>
 
-        {/* Per-question breakdown */}
         <div className="space-y-3">
           <h2 className="font-bold text-slate-700 px-1">Détail des réponses</h2>
 
@@ -95,7 +93,7 @@ export default async function ResultPage({ params }: Props) {
                   isCorrect ? "border-emerald-100" : "border-red-100"
                 }`}
               >
-                {/* Question header */}
+
                 <div className={`px-5 py-3 flex items-start gap-3 ${
                   isCorrect ? "bg-emerald-50/60" : "bg-red-50/60"
                 }`}>
@@ -110,7 +108,7 @@ export default async function ResultPage({ params }: Props) {
                     </span>
                     <div className="flex items-start gap-3 mt-0.5">
                       {answer.question.image && (
-                        /* eslint-disable-next-line @next/next/no-img-element */
+
                         <img
                           src={answer.question.image}
                           alt=""
@@ -124,9 +122,8 @@ export default async function ResultPage({ params }: Props) {
                   </div>
                 </div>
 
-                {/* Answers */}
                 <div className="px-5 py-4 space-y-2">
-                  {/* Student's answer */}
+
                   {answer.selectedOption ? (
                     <div className={`flex items-center gap-2.5 text-sm rounded-xl px-3 py-2.5 ${
                       isCorrect
@@ -139,7 +136,7 @@ export default async function ResultPage({ params }: Props) {
                         <XCircle className="w-4 h-4 shrink-0" />
                       )}
                       {answer.selectedOption.image ? (
-                        /* eslint-disable-next-line @next/next/no-img-element */
+
                         <img
                           src={answer.selectedOption.image}
                           alt=""
@@ -158,12 +155,11 @@ export default async function ResultPage({ params }: Props) {
                     </div>
                   )}
 
-                  {/* Correct answer (only if wrong) */}
                   {!isCorrect && correctOption && (
                     <div className="flex items-center gap-2.5 text-sm rounded-xl px-3 py-2.5 bg-emerald-50 text-emerald-700">
                       <CheckCircle2 className="w-4 h-4 shrink-0" />
                       {correctOption.image ? (
-                        /* eslint-disable-next-line @next/next/no-img-element */
+
                         <img
                           src={correctOption.image}
                           alt=""
@@ -182,7 +178,6 @@ export default async function ResultPage({ params }: Props) {
           })}
         </div>
 
-        {/* Actions */}
         <div className="flex gap-3 pt-2">
           <Link
             href="/dashboard"

@@ -17,14 +17,12 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-/* ── Student schema ──────────────────────────────────────────────────────── */
-
 function StudentContent() {
   return (
     <div className="space-y-6">
-      {/* Visual schema */}
+
       <div className="space-y-3">
-        {/* Page d'accueil */}
+
         <div className="flex justify-center">
           <div className="bg-blue-600 text-white rounded-2xl px-6 py-3 text-center shadow-md">
             <p className="font-black text-base">Page d&apos;accueil</p>
@@ -32,12 +30,10 @@ function StudentContent() {
           </div>
         </div>
 
-        {/* Arrow down + split */}
         <div className="flex justify-center">
           <ArrowDown className="w-5 h-5 text-blue-300" />
         </div>
 
-        {/* Parcours + Libre accès */}
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4">
             <div className="flex items-center gap-2 mb-2">
@@ -63,12 +59,10 @@ function StudentContent() {
           </div>
         </div>
 
-        {/* Arrow from Parcours */}
         <div className="flex justify-start pl-[calc(25%-10px)]">
           <ArrowDown className="w-5 h-5 text-blue-300" />
         </div>
 
-        {/* Leçons */}
         <div className="w-1/2 bg-blue-50 border-2 border-blue-200 rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
@@ -81,12 +75,10 @@ function StudentContent() {
           </p>
         </div>
 
-        {/* Arrow down */}
         <div className="flex justify-start pl-[calc(25%-10px)]">
           <ArrowDown className="w-5 h-5 text-blue-300" />
         </div>
 
-        {/* Quizz */}
         <div className="w-1/2 bg-blue-50 border-2 border-blue-200 rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
@@ -100,7 +92,6 @@ function StudentContent() {
         </div>
       </div>
 
-      {/* Key rule */}
       <div className="bg-blue-600 rounded-2xl p-4 text-white">
         <p className="font-bold text-sm mb-1">Règle du parcours :</p>
         <div className="flex items-center gap-2 text-xs text-blue-100">
@@ -115,8 +106,6 @@ function StudentContent() {
     </div>
   );
 }
-
-/* ── Teacher schema ──────────────────────────────────────────────────────── */
 
 function TeacherContent() {
   return (
@@ -171,8 +160,6 @@ function TeacherContent() {
   );
 }
 
-/* ── Popup ───────────────────────────────────────────────────────────────── */
-
 export default function GuidePopup({ role, userId }: { role: string; userId: string }) {
   const [open, setOpen] = useState(false);
   const [dontShow, setDontShow] = useState(false);
@@ -196,7 +183,7 @@ export default function GuidePopup({ role, userId }: { role: string; userId: str
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-        {/* Header */}
+
         <div className="px-6 py-5 border-b border-slate-100 flex items-start justify-between shrink-0">
           <div>
             <h2 className="text-xl font-black text-slate-900">
@@ -214,12 +201,10 @@ export default function GuidePopup({ role, userId }: { role: string; userId: str
           </button>
         </div>
 
-        {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto px-6 py-5">
           {role === "teacher" ? <TeacherContent /> : <StudentContent />}
         </div>
 
-        {/* Footer */}
         <div className="px-6 py-4 border-t border-slate-100 bg-white flex items-center justify-between shrink-0">
           <label className="flex items-center gap-2 cursor-pointer select-none">
             <input
