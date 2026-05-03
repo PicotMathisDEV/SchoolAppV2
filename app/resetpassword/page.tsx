@@ -1,110 +1,116 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { resetPassword } from "@/src/lib/auth-client";
-import { Label } from "@radix-ui/react-label";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-
 import { useState } from "react";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
-export default function ResetpasswordPage() {
+export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
+    if (password !== confirm) {
+      setError("Les mots de passe ne correspondent pas");
+      return;
+    }
+    if (password.length < 8) {
+      setError("Le mot de passe doit contenir au moins 8 caractères");
+      return;
+    }
+
+    setLoading(true);
     try {
       const token = new URLSearchParams(window.location.search).get("token");
-
       if (!token) {
-        setError("Token manquant dans l'URL");
-        toast.error("Token manquant dans l'URL");
-        setLoading(false);
+        setError("Lien invalide ou expiré");
         return;
       }
 
-      const { data, error: resetError } = await resetPassword({
-        newPassword: password,
-        token: token ?? undefined,
-      });
-
-      if (data) {
-        console.log("reset response:", data);
-      }
-
+      const { error: resetError } = await resetPassword({ newPassword: password, token });
       if (resetError) {
-        setError(resetError.message || "sadge");
-        toast.error(<div className="text-sm">{resetError.message}</div>);
+        setError(resetError.message || "Une erreur est survenue");
       } else {
-        toast.success(
-          <div className="text-sm">Mot de passe modifié avec succès</div>,
-        );
-        setTimeout(() => {
-          router.push("/login");
-        }, 500);
+        toast.success("Mot de passe modifié avec succès !");
+        setTimeout(() => router.push("/login"), 500);
       }
-    } catch (err) {
+    } catch {
       setError("Une erreur est survenue");
-      toast.error("Une erreur est survenue");
-      console.log(err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className=" bg-white flex min-h-screen items-center justify-center">
-      <Toaster />
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Changer de mot de passe</CardTitle>
-          <CardDescription>Entrez votre nouveau mot de passe</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="password">Nouveau mot de passe</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="mt-2"
-              />
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-slate-900">Nouveau mot de passe</h1>
+          <p className="text-slate-500 text-sm mt-1">Choisissez un nouveau mot de passe sécurisé.</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="password" className="text-sm font-semibold text-slate-700">
+              Nouveau mot de passe
+            </Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="h-11 rounded-xl border-slate-200 focus-visible:ring-blue-500"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="confirm" className="text-sm font-semibold text-slate-700">
+              Confirmer le mot de passe
+            </Label>
+            <Input
+              id="confirm"
+              type="password"
+              placeholder="••••••••"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              className="h-11 rounded-xl border-slate-200 focus-visible:ring-blue-500"
+              required
+            />
+          </div>
+
+          {error && (
+            <div className="rounded-xl bg-red-50 border border-red-200 p-3 text-sm text-red-600">
+              {error}
             </div>
-            {error && (
-              <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-                {error}
-              </div>
-            )}
-            <Button
-              type="submit"
-              className="w-full cursor-pointer"
-              disabled={loading}
-            >
-              {loading
-                ? "Changement du Mot de passe"
-                : "Changer mon mot de passe"}{" "}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
+          >
+            {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Modification…</> : "Changer mon mot de passe"}
+          </button>
+        </form>
+
+        <p className="mt-5 text-center text-sm text-slate-500">
+          <Link href="/login" className="text-blue-600 font-semibold hover:underline">
+            Retour à la connexion
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

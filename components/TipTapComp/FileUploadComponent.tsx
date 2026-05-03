@@ -14,7 +14,7 @@ export const FileUploadComponent = ({
 
     // Ici, tu appelles ton serveur ou une action Prisma
     // Exemple : const url = await uploadToS3(file);
-    console.log("Fichier sélectionné:", file.name);
+
 
     // Une fois l'upload fini, tu peux transformer ce nœud en lien ou stocker l'URL
     updateAttributes({

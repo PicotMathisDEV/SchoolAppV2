@@ -19,69 +19,71 @@ interface ForgotPasswordEmailProps {
   userEmail: string;
 }
 
-const ForgotPasswordEmail = (props: ForgotPasswordEmailProps) => {
-  const { username, resetUrl, userEmail } = props;
-
+const ForgotPasswordEmail = ({ username, resetUrl, userEmail }: ForgotPasswordEmailProps) => {
   return (
     <Html lang="fr" dir="ltr">
+      <Head />
+      <Preview>Réinitialisez votre mot de passe EduApp</Preview>
       <Tailwind>
-        <Head />
-        <Preview>Réinitialisez votre mot de passe</Preview>
-        <Body className="bg-gray-100 font-sans py-10">
-          <Container className="bg-white rounded-xl px-8 py-10 mx-auto max-w-150">
-            <Section className="text-center mb-8">
-              <Heading className="text-[28px] font-bold text-black m-0">
-                Réinitialisation de mot de passe
-              </Heading>
+        <Body className="bg-slate-100 font-sans py-10">
+          <Container className="bg-white mx-auto max-w-xl rounded-2xl overflow-hidden shadow-sm">
+
+            {/* Header bleu */}
+            <Section className="bg-blue-600 px-10 py-6 text-center">
+              <Text className="text-white font-bold text-lg m-0 tracking-wide">🔑 Réinitialisation du mot de passe</Text>
             </Section>
 
-            <Section className="mb-8">
-              <Text className="text-[16px] text-gray-800 leading-6 mb-4">
-                Bonjour, {username}
+            {/* Contenu */}
+            <Section className="px-10 py-8">
+              <Heading className="text-xl font-bold text-slate-900 m-0 mb-4">
+                Réinitialisation de mot de passe
+              </Heading>
+
+              <Text className="text-base text-slate-600 leading-6 m-0 mb-3">
+                Bonjour <strong>{username}</strong>,
               </Text>
 
-              <Text className="text-[16px] text-gray-800 leading-6 mb-4">
-                Nous avons reçu une demande de réinitialisation de mot de passe
-                pour votre compte associé à l&apos;adresse email{" "}
-                <strong>{userEmail}</strong>.
+              <Text className="text-base text-slate-600 leading-6 m-0 mb-3">
+                Nous avons reçu une demande de réinitialisation du mot de passe
+                pour le compte associé à <strong>{userEmail}</strong>.
               </Text>
 
-              <Text className="text-[16px] text-gray-800 leading-6 mb-6">
-                Pour créer un nouveau mot de passe, cliquez sur le bouton
-                ci-dessous :
+              <Text className="text-base text-slate-600 leading-6 m-0 mb-6">
+                Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe.
+                Ce lien expire dans <strong>24 heures</strong>.
               </Text>
 
               <Section className="text-center mb-8">
                 <Button
                   href={resetUrl}
-                  className="bg-black text-white px-8 py-3 rounded-[6px] text-[16px] font-semibold no-underline box-border inline-block"
+                  className="bg-blue-600 text-white px-8 py-4 rounded-xl text-base font-bold no-underline box-border inline-block"
                 >
-                  Réinitialiser mon mot de passe
+                  Réinitialiser mon mot de passe →
                 </Button>
               </Section>
 
-              <Text className="text-[14px] text-gray-600 leading-5 mb-4">
-                Si le bouton ne fonctionne pas, vous pouvez copier et coller ce
-                lien dans votre navigateur :
+              <Text className="text-sm text-slate-400 leading-5 m-0 mb-1">
+                Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :
               </Text>
-
-              <Text className="text-[14px] text-gray-800 leading-5 mb-6 break-all">
-                <Link href={resetUrl} className="text-gray-800 underline">
+              <Text className="text-sm leading-5 m-0 mb-6 break-all">
+                <Link href={resetUrl} className="text-blue-600 underline">
                   {resetUrl}
                 </Link>
               </Text>
 
-              <Text className="text-[14px] text-gray-600 leading-5 mb-4">
-                <strong>Important :</strong> Ce lien expirera dans 24 heures
-                pour des raisons de sécurité.
-              </Text>
-
-              <Text className="text-[14px] text-gray-600 leading-5">
-                Si vous n&apos;avez pas demandé cette réinitialisation, vous
-                pouvez ignorer cet email en toute sécurité. Votre mot de passe
-                actuel restera inchangé.
+              <Text className="text-sm text-slate-400 leading-5 m-0">
+                Si vous n&apos;avez pas demandé cette réinitialisation, ignorez cet email.
+                Votre mot de passe actuel reste inchangé.
               </Text>
             </Section>
+
+            {/* Footer */}
+            <Section className="bg-slate-50 px-10 py-5 border-t border-slate-200">
+              <Text className="text-xs text-slate-400 m-0 text-center">
+                Si vous n&apos;avez pas demandé cette réinitialisation, ignorez cet email.
+              </Text>
+            </Section>
+
           </Container>
         </Body>
       </Tailwind>

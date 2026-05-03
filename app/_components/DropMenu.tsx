@@ -25,11 +25,11 @@ import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 
 import {
   Bookmark,
+  BookOpen,
   GraduationCapIcon,
   HelpCircle,
   LayoutDashboard,
   LogOut,
-  PersonStanding,
   Puzzle,
   Settings,
   ShieldUser,
@@ -54,10 +54,6 @@ const DropMenu = ({ user }: Props) => {
   const settings = () => router.push("/settings");
   const dashboard = () => router.push("/dashboard");
   const gestion = () => router.push("/gestion");
-  const classes = () => router.push("/classes");
-  const quizz = () => router.push("/quizz");
-  const lessons = () => router.push("/lessons");
-  const parcours = () => router.push("/parcours");
 
   const handleSignOut = async () => {
     await signOut();
@@ -68,7 +64,7 @@ const DropMenu = ({ user }: Props) => {
   return (
     <div>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild className="absolute top-6 right-8">
+        <DropdownMenuTrigger asChild className="top-6 right-8 fixed">
           <Button className="flex flex-row items-center gap-2 p-2 bg-white text-black border border-black/20 hover:bg-white/80 cursor-pointer">
             <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full">
               <Image
@@ -132,28 +128,35 @@ const DropMenu = ({ user }: Props) => {
             </>
           )}
           <DropdownMenuSeparator />
-          {user?.role === "user" && (
+          {user?.role === "student" && (
             <DropdownMenuGroup>
-              <DropdownMenuItem className="cursor-pointer" onClick={classes}>
-                <PersonStanding /> Ma classe
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => router.push("/dashboard/lessons")}
+              >
+                <Bookmark /> Mes Leçons
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer" onClick={parcours}>
-                {" "}
-                <GraduationCapIcon />
-                Mes Parcours
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => router.push("/dashboard/quizzes")}
+              >
+                <HelpCircle /> Mes Quiz
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer" onClick={lessons}>
-                <Bookmark />
-                Mes lecons
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer" onClick={quizz}>
-                <HelpCircle />
-                Mes Quizz
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => router.push("/classes")}
+              >
+                <GraduationCapIcon /> Ma Classe
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </DropdownMenuGroup>
           )}
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => router.push("/guide")}
+          >
+            <BookOpen /> Guide d&apos;utilisation
+          </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer" onClick={settings}>
             <Settings /> Paramètres
           </DropdownMenuItem>

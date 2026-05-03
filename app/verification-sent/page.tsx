@@ -31,7 +31,7 @@ export default function VerifyEmailPage() {
         }
       }
     } catch (err) {
-      console.log(err);
+
     }
     return 0;
   });
@@ -68,7 +68,7 @@ export default function VerifyEmailPage() {
       setCountDown(600);
     } catch (error) {
       toast.error("Erreur lors de l'envoi");
-      console.log(error);
+
     }
   };
 

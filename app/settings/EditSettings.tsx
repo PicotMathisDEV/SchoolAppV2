@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { updateUserData } from "@/src/lib/actions/update-user";
+import { clearStudentPassword } from "@/src/lib/actions/action";
 import Image from "next/image";
 import { authClient } from "@/src/lib/auth-client";
 import {
@@ -43,7 +44,7 @@ const EditSettings = ({ user }: Props) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      console.log("Fichier sélectionné :", file.name);
+
     }
   };
 
@@ -67,6 +68,8 @@ const EditSettings = ({ user }: Props) => {
       toast.success("Mot de passe mis à jour avec succès");
       setCurrentPassword("");
       setNewPassword("");
+      // Clear the temporary password stored by the teacher
+      await clearStudentPassword().catch(() => {});
     }
     setIsChangingPassword(false);
   };

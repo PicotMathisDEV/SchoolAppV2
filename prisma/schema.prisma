@@ -1,11 +1,9 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
-  moduleFormat           = "cjs" // "esm" or `"cjs"` for CommonJS
-  runtime                = "nodejs"
+  provider              = "prisma-client"
+  output                = "../src/generated/prisma"
+  moduleFormat          = "cjs"
+  runtime               = "nodejs"
   generatedFileExtension = "ts"
- 
-  
 }
 
 datasource db {
@@ -28,12 +26,14 @@ model User {
   accounts       Account[]
   password       String?
 
+  quizzes        Quiz[]    @relation("TeacherQuizzes")
+  quizResults    Result[]
 
-  managedClasses  Classe[] @relation("TeacherClasses")
-  enrolledClasses Classe[] @relation("StudentClasses")
-
- 
-  lessonsTaught   Lesson[] @relation("TeacherLessons")
+  managedClasses  Classe[]         @relation("TeacherClasses")
+  enrolledClasses Classe[]         @relation("StudentClasses")
+  lessonsTaught   Lesson[]         @relation("TeacherLessons")
+  teacherParcours Parcours[]       @relation("TeacherParcours")
+  stepCompletions StepCompletion[]
 
   @@map("user")
 }
@@ -45,15 +45,16 @@ model Classe {
   image       String?  @default("/class.png")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
+
   teacher     User     @relation("TeacherClasses", fields: [teacherId], references: [id], onDelete: Cascade)
   teacherId   String
   teacherName String
-  
-  students    User[]   @relation("StudentClasses")
-  
- 
-  lessons     Lesson[] @relation("ClasseToLesson")
+  inviteCode  String?  @unique
+
+  students    User[]     @relation("StudentClasses")
+  lessons     Lesson[]   @relation("ClasseToLesson")
+  quizzes     Quiz[]     @relation("ClasseToQuiz")
+  parcours    Parcours[] @relation("ClasseToParcours")
 
   @@index([teacherId])
 }
@@ -66,25 +67,25 @@ model Lesson {
   updatedAt   DateTime @updatedAt
   teacher     User     @relation("TeacherLessons", fields: [teacherId], references: [id], onDelete: Cascade)
   teacherId   String
-  teacherName String 
-  classes     Classe[] @relation("ClasseToLesson")
-  
-  content     String?
+  teacherName String
+  classes       Classe[]       @relation("ClasseToLesson")
+  content       String?
+  parcoursSteps ParcoursStep[]
 
   @@index([teacherId])
 }
 
 model Session {
-  id        String   @id
+  id             String   @id
   impersonatedBy String?
-  expiresAt DateTime
-  token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt      DateTime
+  token          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@index([userId])
@@ -123,3 +124,116 @@ model Verification {
   @@map("verification")
 }
 
+model Quiz {
+  id          String     @id @default(cuid())
+  title       String
+  image       String?    @default("/quiz.png")
+  description String?
+
+  teacherId   String
+  teacher     User       @relation("TeacherQuizzes", fields: [teacherId], references: [id], onDelete: Cascade)
+
+  classes       Classe[]       @relation("ClasseToQuiz")
+  questions     Question[]
+  results       Result[]
+  parcoursSteps ParcoursStep[]
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([teacherId])
+}
+
+model Result {
+  id        String         @id @default(cuid())
+  score     Int
+  total     Int
+
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  quizId    String
+  quiz      Quiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  answers   ResultAnswer[]
+
+  createdAt DateTime       @default(now())
+
+  @@index([userId])
+  @@index([quizId])
+}
+
+model ResultAnswer {
+  id               String   @id @default(cuid())
+  resultId         String
+  result           Result   @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  questionId       String
+  question         Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  selectedOptionId String?
+  selectedOption   Option?  @relation(fields: [selectedOptionId], references: [id], onDelete: SetNull)
+  isCorrect        Boolean
+
+  @@index([resultId])
+}
+
+model Question {
+  id            String         @id @default(cuid())
+  content       String
+  image         String?
+  quizId        String
+  quiz          Quiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options       Option[]
+  resultAnswers ResultAnswer[]
+}
+
+model Option {
+  id            String         @id @default(cuid())
+  text          String?
+  image         String?
+  isCorrect     Boolean        @default(false)
+  questionId    String
+  question      Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  resultAnswers ResultAnswer[]
+}
+
+model Parcours {
+  id        String         @id @default(cuid())
+  title     String
+  image     String?
+  teacherId String
+  teacher   User           @relation("TeacherParcours", fields: [teacherId], references: [id], onDelete: Cascade)
+  classes   Classe[]       @relation("ClasseToParcours")
+  steps     ParcoursStep[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([teacherId])
+}
+
+model ParcoursStep {
+  id          String          @id @default(cuid())
+  parcoursId  String
+  parcours    Parcours        @relation(fields: [parcoursId], references: [id], onDelete: Cascade)
+  order       Int
+  lessonId    String?
+  lesson      Lesson?         @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  quizId      String?
+  quiz        Quiz?           @relation(fields: [quizId], references: [id], onDelete: SetNull)
+  completions StepCompletion[]
+
+  @@unique([parcoursId, order])
+  @@index([parcoursId])
+}
+
+model StepCompletion {
+  id         String       @id @default(cuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stepId     String
+  step       ParcoursStep @relation(fields: [stepId], references: [id], onDelete: Cascade)
+  lessonDone Boolean      @default(false)
+  createdAt  DateTime     @default(now())
+
+  @@unique([userId, stepId])
+  @@index([userId])
+}

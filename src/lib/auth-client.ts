@@ -1,8 +1,9 @@
 import { createAuthClient } from "better-auth/react";
-import { adminClient } from "better-auth/client/plugins";
+import { inferAdditionalFields } from "better-auth/client/plugins";
+import type { auth } from "./auth";
 
 export const authClient = createAuthClient({
-  plugins: [adminClient()],
+  plugins: [inferAdditionalFields<typeof auth>()],
 });
 
 export const {
@@ -14,4 +15,5 @@ export const {
   requestPasswordReset,
   deleteUser,
   listAccounts,
+  changePassword,
 } = authClient;

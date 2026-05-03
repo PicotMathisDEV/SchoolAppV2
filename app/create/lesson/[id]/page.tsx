@@ -12,8 +12,8 @@ interface Lesson {
   title: string;
   teacherId: string;
   teacherName: string;
-  content: string;
-  image: string;
+  content: string | null;
+  image: string | null;
   classes: { id: string; name?: string }[];
 }
 
@@ -58,10 +58,10 @@ export default function Page() {
       <div className="-z-10 absolute ">
         <SimpleEditor
           lesson={{
-            content: currentLesson.content,
+            content: currentLesson.content ?? "",
             title: currentLesson.title,
             id: currentLesson.id,
-            image: currentLesson.image,
+            image: currentLesson.image ?? "",
             teacherId: currentLesson.teacherId,
             teacherName: currentLesson.teacherName,
             classes: currentLesson.classes,

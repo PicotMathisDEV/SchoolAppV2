@@ -31,9 +31,11 @@ import {
   AlignRight,
   Superscript,
   Subscript,
+  Underline,
+  Loader2,
 } from "lucide-react";
 import { menuBarStateSelector } from "./MenuBarState";
-import { updateLessonContent } from "@/src/lib/actions/lesson-action";
+import { updateLessonContent, uploadLessonContentImage } from "@/src/lib/actions/lesson-action";
 import { toast } from "sonner";
 import { Drop } from "./Drop";
 
@@ -73,13 +75,14 @@ const MenuButton = ({
           : "text-slate-600 hover:bg-slate-100 hover:text-blue-600"
     } ${disabled ? "opacity-20 cursor-not-allowed" : "cursor-pointer active:scale-90"}`}
   >
-    {React.cloneElement(children as React.ReactElement, { size: 16 })}
+    {React.cloneElement(children as React.ReactElement<{ size: number }>, { size: 16 })}
   </button>
 );
 
 export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
   const state = useEditorState({ editor, selector: menuBarStateSelector });
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = React.useState(false);
 
   const handleSubmit = async () => {
     if (!editor) return;
@@ -105,18 +108,20 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
     editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
   }, [editor]);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && editor) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        editor
-          .chain()
-          .focus()
-          .setImage({ src: e.target?.result as string })
-          .run();
-      };
-      reader.readAsDataURL(file);
+    if (!file || !editor) return;
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+      const url = await uploadLessonContentImage(formData);
+      editor.chain().focus().setImage({ src: url }).run();
+    } catch {
+      toast.error("Erreur lors de l'upload de l'image");
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
@@ -151,6 +156,13 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
               title="Gras"
             >
               <Bold />
+            </MenuButton>
+            <MenuButton
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
+              isActive={state.isUnderline}
+              title="Souligner"
+            >
+              <Underline />
             </MenuButton>
             <MenuButton
               onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -295,9 +307,10 @@ export const MenuBar = ({ editor, lesson }: MenuBarProps) => {
             />
             <MenuButton
               onClick={() => fileInputRef.current?.click()}
-              title="Image"
+              disabled={isUploading}
+              title={isUploading ? "Upload en cours…" : "Image"}
             >
-              <ImageIcon />
+              {isUploading ? <Loader2 className="animate-spin" /> : <ImageIcon />}
             </MenuButton>
           </div>
         </div>

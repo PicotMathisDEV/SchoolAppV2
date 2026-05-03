@@ -16,7 +16,10 @@ export async function getClasses() {
       teacherId: session.user.id,
     },
     include: {
-      students: true,
+      students: { select: { id: true } },
+      lessons: { select: { id: true } },
+      quizzes: { select: { id: true } },
+      parcours: { select: { id: true } },
     },
   });
 }
@@ -29,17 +32,22 @@ export async function getMyClass() {
   if (!session) throw new Error("Non autorisé");
 
   return await prisma.classe.findFirst({
-    where: {
-      students: {
-        some: {
-          id: session.user.id,
+    where: { students: { some: { id: session.user.id } } },
+    select: {
+      id: true,
+      name: true,
+      teacher: { select: { name: true } },
+      students: { select: { id: true, name: true, email: true, image: true } },
+      lessons: { select: { id: true, title: true, image: true, teacherName: true } },
+      quizzes: {
+        select: {
+          id: true,
+          title: true,
+          image: true,
+          description: true,
+          _count: { select: { questions: true } },
         },
       },
-    },
-    include: {
-      students: true,
-      lessons: true,
-      teacher: true,
     },
   });
 }
